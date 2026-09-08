@@ -1,10 +1,34 @@
 {
-  "redirects": [
-    { "source": "/Side%20Page_Grove%20Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side Page_Grove Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20One%20Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side Page_Hearth One Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true },
-    { "source": "/Side Page_Hearth Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true }
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/models/hearth-pod",
+      "destination": "/Side%20Page_Hearth%20Pod.dc.html"
+    },
+    {
+      "source": "/models/hearth-studio",
+      "destination": "/models/hearth-studio/index.html"
+    },
+    {
+      "source": "/models/hearth-one-bedroom",
+      "destination": "/Side%20Page_Hearth%20One%20Bedroom.dc.html"
+    },
+    {
+      "source": "/models/grove-pod",
+      "destination": "/Side%20Page_Grove%20Pod.dc.html"
+    },
+    {
+      "source": "/models/grove-studio",
+      "destination": "/Side%20Page_Grove%20Loft.dc.html"
+    },
+    {
+      "source": "/resources",
+      "destination": "/Resources.dc.html"
+    },
+    {
+      "source": "/resources/how-much-does-a-modular-adu-cost",
+      "destination": "/Resources_How%20Much%20Does%20a%20Modular%20ADU%20Cost.dc.html"
+    }
   ]
 }
