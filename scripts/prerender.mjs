@@ -1,7 +1,8 @@
 import { createServer } from 'node:http';
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { extname, join, resolve } from 'node:path';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
 const ROOT = resolve(process.cwd());
 const PORT = 4321;
@@ -150,8 +151,35 @@ ${HYDRATION_CLEANUP}
   return html;
 }
 
+/**
+ * @sparticuz/chromium is a Chromium build compiled for serverless images
+ * (Vercel / AWS Lambda) with its shared libraries bundled, so it does not need
+ * libnss3 and friends installed on the host. Locally there is no such build —
+ * point PUPPETEER_EXECUTABLE_PATH at your own Chrome to run the build on a dev
+ * machine.
+ */
+async function launch() {
+  const local = process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (local) {
+    console.log(`using local browser: ${local}`);
+    return puppeteer.launch({
+      executablePath: local,
+      headless: true,
+      args: ['--no-sandbox', '--disable-dev-shm-usage'],
+    });
+  }
+  const executablePath = await chromium.executablePath();
+  console.log(`using @sparticuz/chromium: ${executablePath}`);
+  return puppeteer.launch({
+    executablePath,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    headless: chromium.headless,
+  });
+}
+
 const server = await serve();
-const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-dev-shm-usage'] });
+const browser = await launch();
 console.log(`prerendering ${ROUTES.length} route(s):`);
 try {
   for (const route of ROUTES) await prerender(browser, route);
