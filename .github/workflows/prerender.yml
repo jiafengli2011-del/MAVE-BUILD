@@ -1,0 +1,64 @@
+name: Prerender static pages
+
+# Runs the headless-browser prerender on GitHub's runner, where apt and root
+# are available, and commits the generated HTML. Vercel then serves those files
+# as plain static output with no build step and no browser.
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'src/**'
+      - 'scripts/prerender.mjs'
+      - 'support.js'
+      - 'image-slot.js'
+      - 'package.json'
+      - '.github/workflows/prerender.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prerender-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prerender:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The libs the Vercel build sandbox could not provide.
+      - name: Install Chrome system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 \
+            libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libatspi2.0-0 \
+            fonts-liberation
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prerender
+        run: npm run prerender
+
+      - name: Commit generated pages
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add models resources index.html 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "chore: prerender static pages [skip ci]"
+            git push
+          fi
