@@ -7,8 +7,9 @@ const ROOT = resolve(process.cwd());
 const PORT = 4321;
 
 const CDN_PREFIX = 'https://cdn.jsdelivr.net/gh/jiafengli2011-del/MAVE-BUILD@main/';
-/** Runtime files resolved from this checkout rather than the CDN. */
+/** Runtime files served from this checkout rather than the CDN. */
 const LOCAL_ASSETS = ['support.js', 'image-slot.js'];
+const DEBUG_DIR = 'prerender-debug';
 
 /**
  * One entry per route. `source` is the Design Component source page;
@@ -99,17 +100,46 @@ async function prerender(browser, route) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000 });
 
+  // Diagnostics — collected for the whole render, dumped if the wait fails.
+  const consoleErrors = [];
+  const pageErrors = [];
+  const failedRequests = [];
+  page.on('console', (m) => {
+    if (m.type() === 'error' || m.type() === 'warning') {
+      consoleErrors.push(`[${m.type()}] ${m.text()}`);
+    }
+  });
+  page.on('pageerror', (e) => pageErrors.push(String(e && e.message ? e.message : e)));
+  page.on('requestfailed', (r) => {
+    failedRequests.push(`${r.failure()?.errorText || 'failed'} ← ${r.url()}`);
+  });
+  page.on('response', (r) => {
+    if (r.status() >= 400) failedRequests.push(`HTTP ${r.status()} ← ${r.url()}`);
+  });
+
   // The source pins support.js / image-slot.js to jsDelivr @main. On a feature
-  // branch those files may not exist on main yet, and jsDelivr caches hard —
-  // so serve them from this checkout instead. Affects only what the browser
-  // fetches while rendering; the emitted HTML keeps the CDN URLs verbatim.
+  // branch those files may not exist on main yet, and jsDelivr caches 404s
+  // hard — so serve them straight from this checkout. Fulfilling the request
+  // with the file bytes is deterministic; rewriting the request URL across
+  // origins is not. Affects only what the browser fetches while rendering —
+  // the emitted HTML keeps the CDN URLs verbatim.
   await page.setRequestInterception(true);
-  page.on('request', (req) => {
+  page.on('request', async (req) => {
     const url = req.url();
     if (url.startsWith(CDN_PREFIX)) {
-      const rel = url.slice(CDN_PREFIX.length);
+      const rel = url.slice(CDN_PREFIX.length).split('?')[0];
       if (LOCAL_ASSETS.includes(rel)) {
-        return req.continue({ url: `http://localhost:${PORT}/${rel}` });
+        try {
+          const body = await readFile(join(ROOT, rel));
+          return req.respond({
+            status: 200,
+            contentType: 'text/javascript; charset=utf-8',
+            body,
+          });
+        } catch (err) {
+          failedRequests.push(`local asset missing: ${rel} (${err.message})`);
+          return req.abort();
+        }
       }
     }
     req.continue();
@@ -118,13 +148,18 @@ async function prerender(browser, route) {
   await page.goto(`http://localhost:${PORT}/${route.source}`, { waitUntil: 'networkidle2', timeout: 60000 });
 
   // The runtime replaces <x-dc> with #dc-root and renders into it.
-  await page.waitForFunction(
-    () => {
-      const root = document.getElementById('dc-root');
-      return !!(root && root.firstElementChild && root.textContent.trim().length > 500);
-    },
-    { timeout: 60000 }
-  );
+  try {
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById('dc-root');
+        return !!(root && root.firstElementChild && root.textContent.trim().length > 500);
+      },
+      { timeout: 60000 }
+    );
+  } catch (err) {
+    await dumpFailure(page, route, { consoleErrors, pageErrors, failedRequests });
+    throw err;
+  }
   await page.evaluate(() => document.fonts && document.fonts.ready);
 
   const { head, body } = await page.evaluate(() => {
@@ -171,6 +206,70 @@ ${HYDRATION_CLEANUP}
   return html;
 }
 
+/**
+ * Called when the mount wait times out. Reports which stage of the boot chain
+ * was reached — support.js executed → React loaded → __dcBoot ran → content
+ * rendered — so the failure point is visible without another round trip.
+ */
+async function dumpFailure(page, route, logs) {
+  console.error(`\n✗ ${route.out} — timed out waiting for the page to render.\n`);
+
+  let state = {};
+  try {
+    state = await page.evaluate(() => {
+      const root = document.getElementById('dc-root');
+      return {
+        supportJsLoaded: typeof window.__dcBoot === 'function',
+        reactLoaded: !!window.React,
+        reactDomLoaded: !!window.ReactDOM,
+        bootRan: !!root,
+        xDcStillPresent: !!document.querySelector('x-dc'),
+        renderedTextLength: root ? root.textContent.trim().length : 0,
+        rootChildren: root ? root.children.length : 0,
+        readyState: document.readyState,
+      };
+    });
+  } catch (e) {
+    console.error('  could not read page state:', e.message);
+  }
+
+  console.error('  boot chain:');
+  const stages = [
+    ['support.js executed  (window.__dcBoot)', state.supportJsLoaded],
+    ['React loaded         (window.React)', state.reactLoaded],
+    ['ReactDOM loaded      (window.ReactDOM)', state.reactDomLoaded],
+    ['__dcBoot ran         (#dc-root exists)', state.bootRan],
+    ['content rendered     (>500 chars)', state.renderedTextLength > 500],
+  ];
+  for (const [label, ok] of stages) console.error(`    ${ok ? 'ok  ' : 'FAIL'}  ${label}`);
+  console.error(
+    `  rendered text: ${state.renderedTextLength || 0} chars in ${state.rootChildren || 0} child element(s), readyState=${state.readyState}`
+  );
+  if (state.xDcStillPresent) {
+    console.error('  note: <x-dc> is still in the DOM — the runtime never took over.');
+  }
+
+  const section = (title, list) => {
+    if (!list.length) return;
+    console.error(`\n  ${title} (${list.length}):`);
+    for (const line of list.slice(0, 25)) console.error(`    ${line}`);
+    if (list.length > 25) console.error(`    …and ${list.length - 25} more`);
+  };
+  section('page errors', logs.pageErrors);
+  section('failed / error responses', logs.failedRequests);
+  section('console errors and warnings', logs.consoleErrors);
+
+  const slug = route.out.replace(/[\/\\]/g, '_');
+  try {
+    await mkdir(join(ROOT, DEBUG_DIR), { recursive: true });
+    await page.screenshot({ path: join(ROOT, DEBUG_DIR, `${slug}.png`), fullPage: true });
+    await writeFile(join(ROOT, DEBUG_DIR, `${slug}.html`), await page.content(), 'utf8');
+    console.error(`\n  wrote ${DEBUG_DIR}/${slug}.png and ${DEBUG_DIR}/${slug}.html\n`);
+  } catch (e) {
+    console.error(`  could not write debug artifacts: ${e.message}\n`);
+  }
+}
+
 const server = await serve();
 const browser = await puppeteer.launch({
   headless: true,
@@ -184,4 +283,3 @@ try {
   server.close();
 }
 console.log('done.');
-
