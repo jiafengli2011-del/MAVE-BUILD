@@ -3,10 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/prerender.mjs"
+    "prerender": "node scripts/prerender.mjs"
   },
-  "dependencies": {
-    "@sparticuz/chromium": "^131.0.0",
-    "puppeteer-core": "^23.11.1"
+  "devDependencies": {
+    "puppeteer": "^23.11.1"
   }
 }

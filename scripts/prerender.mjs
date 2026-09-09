@@ -1,11 +1,14 @@
 import { createServer } from 'node:http';
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { extname, join, resolve } from 'node:path';
-import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+import puppeteer from 'puppeteer';
 
 const ROOT = resolve(process.cwd());
 const PORT = 4321;
+
+const CDN_PREFIX = 'https://cdn.jsdelivr.net/gh/jiafengli2011-del/MAVE-BUILD@main/';
+/** Runtime files resolved from this checkout rather than the CDN. */
+const LOCAL_ASSETS = ['support.js', 'image-slot.js'];
 
 /**
  * One entry per route. `source` is the Design Component source page;
@@ -15,7 +18,7 @@ const PORT = 4321;
  */
 const ROUTES = [
   {
-    source: 'prerender/src/models/hearth-studio.dc.html',
+    source: 'src/models/hearth-studio.dc.html',
     out: 'models/hearth-studio/index.html',
     canonical: 'https://mavebuild.com/models/hearth-studio',
     head: `<title>Hearth Studio — 375 sq ft ADU Modular Home | MAVE BUILD</title>
@@ -95,6 +98,23 @@ async function prerender(browser, route) {
   const src = await readFile(join(ROOT, route.source), 'utf8');
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000 });
+
+  // The source pins support.js / image-slot.js to jsDelivr @main. On a feature
+  // branch those files may not exist on main yet, and jsDelivr caches hard —
+  // so serve them from this checkout instead. Affects only what the browser
+  // fetches while rendering; the emitted HTML keeps the CDN URLs verbatim.
+  await page.setRequestInterception(true);
+  page.on('request', (req) => {
+    const url = req.url();
+    if (url.startsWith(CDN_PREFIX)) {
+      const rel = url.slice(CDN_PREFIX.length);
+      if (LOCAL_ASSETS.includes(rel)) {
+        return req.continue({ url: `http://localhost:${PORT}/${rel}` });
+      }
+    }
+    req.continue();
+  });
+
   await page.goto(`http://localhost:${PORT}/${route.source}`, { waitUntil: 'networkidle2', timeout: 60000 });
 
   // The runtime replaces <x-dc> with #dc-root and renders into it.
@@ -151,35 +171,11 @@ ${HYDRATION_CLEANUP}
   return html;
 }
 
-/**
- * @sparticuz/chromium is a Chromium build compiled for serverless images
- * (Vercel / AWS Lambda) with its shared libraries bundled, so it does not need
- * libnss3 and friends installed on the host. Locally there is no such build —
- * point PUPPETEER_EXECUTABLE_PATH at your own Chrome to run the build on a dev
- * machine.
- */
-async function launch() {
-  const local = process.env.PUPPETEER_EXECUTABLE_PATH;
-  if (local) {
-    console.log(`using local browser: ${local}`);
-    return puppeteer.launch({
-      executablePath: local,
-      headless: true,
-      args: ['--no-sandbox', '--disable-dev-shm-usage'],
-    });
-  }
-  const executablePath = await chromium.executablePath();
-  console.log(`using @sparticuz/chromium: ${executablePath}`);
-  return puppeteer.launch({
-    executablePath,
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    headless: chromium.headless,
-  });
-}
-
 const server = await serve();
-const browser = await launch();
+const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-dev-shm-usage'],
+});
 console.log(`prerendering ${ROUTES.length} route(s):`);
 try {
   for (const route of ROUTES) await prerender(browser, route);
