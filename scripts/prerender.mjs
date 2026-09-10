@@ -9,7 +9,12 @@ const PORT = 4321;
 const CDN_PREFIX = 'https://cdn.jsdelivr.net/gh/jiafengli2011-del/MAVE-BUILD@main/';
 /** Runtime files served from this checkout rather than the CDN. */
 const LOCAL_ASSETS = ['support.js', 'image-slot.js'];
+const LOCAL_URL_ASSETS = new Map([
+  ['https://unpkg.com/react@18.3.1/umd/react.production.min.js', 'vendor/react.production.min.js'],
+  ['https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js', 'vendor/react-dom.production.min.js'],
+]);
 const DEBUG_DIR = 'prerender-debug';
+const OFFLINE = process.env.PRERENDER_OFFLINE === '1';
 
 /**
  * One entry per route. `source` is the Design Component source page;
@@ -57,6 +62,31 @@ function serve() {
     });
     server.listen(PORT, () => ready(server));
   });
+}
+
+/**
+ * Fail immediately with a useful error if a runtime file was accidentally
+ * replaced by an HTML page. Without this guard Puppeteer waits for a mount
+ * that can never happen and only reports a generic 60-second timeout.
+ */
+async function validateRuntimeAssets() {
+  const support = await readFile(join(ROOT, 'support.js'), 'utf8');
+  const imageSlot = await readFile(join(ROOT, 'image-slot.js'), 'utf8');
+
+  if (/^\s*</.test(support) || !support.includes('DCLogic: runtime.StreamableLogic') || !support.includes('__dcBoot')) {
+    throw new Error(
+      'support.js is not the Design Component JavaScript runtime. ' +
+      'It may have been overwritten with an HTML page; restore the real runtime before prerendering.'
+    );
+  }
+  if (/^\s*</.test(imageSlot) || !imageSlot.includes("customElements.define('image-slot'")) {
+    throw new Error('image-slot.js is not the expected image-slot JavaScript component.');
+  }
+
+  for (const rel of LOCAL_URL_ASSETS.values()) {
+    const source = await readFile(join(ROOT, rel), 'utf8');
+    if (/^\s*</.test(source)) throw new Error(`${rel} contains HTML instead of JavaScript.`);
+  }
 }
 
 /** Pull the <x-dc> template + logic script out of the source, verbatim. */
@@ -144,6 +174,21 @@ async function prerender(browser, route) {
   await page.setRequestInterception(true);
   page.on('request', async (req) => {
     const url = req.url();
+    const localUrlAsset = LOCAL_URL_ASSETS.get(url);
+    if (localUrlAsset) {
+      try {
+        const body = await readFile(join(ROOT, localUrlAsset));
+        return req.respond({
+          status: 200,
+          contentType: 'text/javascript; charset=utf-8',
+          headers: { 'access-control-allow-origin': '*' },
+          body,
+        });
+      } catch (err) {
+        failedRequests.push(`local asset missing: ${localUrlAsset} (${err.message})`);
+        return req.abort();
+      }
+    }
     if (url.startsWith(CDN_PREFIX)) {
       const rel = url.slice(CDN_PREFIX.length).split('?')[0];
       if (LOCAL_ASSETS.includes(rel)) {
@@ -152,6 +197,7 @@ async function prerender(browser, route) {
           return req.respond({
             status: 200,
             contentType: 'text/javascript; charset=utf-8',
+            headers: { 'access-control-allow-origin': '*' },
             body,
           });
         } catch (err) {
@@ -159,6 +205,11 @@ async function prerender(browser, route) {
           return req.abort();
         }
       }
+    }
+    // Used only for local verification in restricted environments. GitHub
+    // Actions does not set this flag and continues to load normal page assets.
+    if (OFFLINE && /^https?:/.test(url) && !url.startsWith(`http://localhost:${PORT}/`)) {
+      return req.abort();
     }
     req.continue();
   });
@@ -295,6 +346,7 @@ async function dumpFailure(page, route, logs) {
   }
 }
 
+await validateRuntimeAssets();
 const server = await serve();
 const browser = await puppeteer.launch({
   headless: true,

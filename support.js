@@ -1,564 +1,1911 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-<template id="__bundler_thumbnail" data-bg-color="#F3EFE6">
-  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1200" height="800" fill="#F3EFE6"/>
-    <g transform="translate(600,400)">
-      <path d="M-140 20 L0 -120 L140 20 L140 140 L-140 140 Z" fill="#2F4A38"/>
-      <rect x="-30" y="60" width="60" height="80" fill="#F3EFE6"/>
-    </g>
-  </svg>
-</template>
-</head>
-<body>
-<x-dc>
-<helmet>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#F3EFE6;-webkit-font-smoothing:antialiased}
-    ::selection{background:#2F4A38;color:#F3EFE6}
-    image-slot{display:block!important;width:100%!important;height:100%!important}
-    a{color:inherit}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  </style>
-</helmet>
-<div style="background:#F3EFE6;color:#20251F;font-family:'Schibsted Grotesk',system-ui,sans-serif">
+// GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
+"use strict";
+(() => {
+  var __defProp = Object.defineProperty;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 
-  <!-- NAV -->
-  <nav style="{{ navStyle }}">
-    <a href="index.html" style="position:relative;display:block;width:102px;height:25px">
-      <img src="uploads/mave-logo-beige.png" alt="MAVE" style="position:absolute;inset:0;width:102px;height:25px;display:block">
-      <img src="uploads/mave-logo-brown.png" alt="" aria-hidden="true" style="position:absolute;inset:0;width:102px;height:25px;display:block;transition:opacity .35s ease;opacity:{{ logoBrownOpacity }}">
-    </a>
-    <div style="display:flex;align-items:center;gap:34px;font-size:14px;font-weight:500;color:{{ navText }};letter-spacing:.01em;transition:color .35s ease">
-      <a href="index.html" style="text-decoration:none;color:inherit">Home</a>
-      <div style="position:relative;display:flex;align-items:center" onMouseEnter="{{ aduEnter }}" onMouseLeave="{{ aduLeave }}">
-        <a href="hearth-studio.html" style="display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:inherit">ADU<span style="font-size:9px;opacity:.7">▾</span></a>
-      </div>
-      <a href="index.html#what-you-get" style="text-decoration:none;color:inherit">How It works</a>
-      <a href="index.html#faq" style="text-decoration:none;color:inherit">FAQ</a>
-      <a href="#" onClick="{{ openContact }}" style="text-decoration:none;color:inherit;cursor:pointer">Contact Us</a>
-    </div>
-    <a href="#" onClick="{{ openContact }}" style="{{ ctaStyle }}">Get a quote</a>
-    <div style="{{ aduMenuStyle }}" onMouseEnter="{{ aduEnter }}" onMouseLeave="{{ aduLeave }}">
-      <a href="hearth-studio.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 56px;text-decoration:none" style-hover="opacity:.62">
-        <span style="font-size:14px;font-weight:500;letter-spacing:.01em;color:#f3efe6;white-space:nowrap">Hearth · Studio</span>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:rgba(243,239,230,.6)">375 sq ft</span>
-      </a>
-      <div style="width:1px;background:rgba(243,239,230,.16);align-self:stretch"></div>
-      <a href="grove-loft.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 56px;text-decoration:none" style-hover="opacity:.62">
-        <span style="font-size:14px;font-weight:500;letter-spacing:.01em;color:#f3efe6;white-space:nowrap">Grove · Studio</span>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:rgba(243,239,230,.6)">320 sq ft</span>
-      </a>
-      <div style="width:1px;background:rgba(243,239,230,.16);align-self:stretch"></div>
-      <a href="hearth-one-bedroom.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 56px;text-decoration:none" style-hover="opacity:.62">
-        <span style="font-size:14px;font-weight:500;letter-spacing:.01em;color:#f3efe6;white-space:nowrap">Hearth · One Bedroom</span>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:rgba(243,239,230,.6)">480 sq ft</span>
-      </a>
-    </div>
-  </nav>
-
-  <!-- CONTACT OVERLAY -->
-  <sc-if value="{{ contactOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeContactBackdrop }}" style="position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,22,17,.58);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadeUp .25s ease both">
-      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:600px;max-height:86vh;overflow-y:auto;background:#FBF9F4;border-radius:14px;box-shadow:0 46px 90px -24px rgba(0,0,0,.4);padding:46px 44px 42px">
-
-        <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ backToMenu }}" style="{{ backBtnStyle }}"><span style="font-size:15px">←</span> Back</button>
-        </sc-if>
-        <button onClick="{{ closeContact }}" style="position:absolute;top:22px;right:22px;width:32px;height:32px;border-radius:50%;border:none;background:transparent;color:#9A9486;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1" style-hover="background:#E7E2D6;color:#20251F">×</button>
-
-        <!-- MENU -->
-        <sc-if value="{{ isMenu }}" hint-placeholder-val="{{ true }}">
-          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:14px">— Contact us</div>
-          <h2 style="font-family:'Spectral',serif;font-size:32px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin-bottom:12px">Let's talk about your project.</h2>
-          <p style="font-size:15.5px;line-height:1.6;color:#54594D;margin-bottom:32px;max-width:44ch">Whichever way you'd rather reach us — we'll get back to you within one business day.</p>
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <button onClick="{{ goFeasibility }}" style="display:flex;align-items:flex-start;gap:16px;text-align:left;padding:20px 22px;border-radius:10px;border:1px solid #DCD6C8;background:#FFFFFF;cursor:pointer;transition:border-color .2s ease, background .2s ease" style-hover="border-color:#2F4A38;background:#EFF3EC">
-              <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#E4EBE1;display:flex;align-items:center;justify-content:center;color:#2F4A38"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v3H9z"></path><path d="M6 6h12v15H6z"></path><path d="M9 12h6M9 16h6"></path></svg></span>
-              <span style="display:flex;flex-direction:column;gap:4px">
-                <span style="font-size:16px;font-weight:600;color:#20251F">Get a free feasibility study</span>
-                <span style="font-size:13.5px;line-height:1.5;color:#7C7868">Tell us about your site and goals — we'll confirm what's possible, free and with no obligation.</span>
-              </span>
-              <span style="margin-left:auto;flex-shrink:0;color:#9A9486;font-size:18px;align-self:center">→</span>
-            </button>
-            <button onClick="{{ goMessage }}" style="display:flex;align-items:flex-start;gap:16px;text-align:left;padding:20px 22px;border-radius:10px;border:1px solid #DCD6C8;background:#FFFFFF;cursor:pointer;transition:border-color .2s ease, background .2s ease" style-hover="border-color:#2F4A38;background:#EFF3EC">
-              <span style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#E4EBE1;display:flex;align-items:center;justify-content:center;color:#2F4A38"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg></span>
-              <span style="display:flex;flex-direction:column;gap:4px">
-                <span style="font-size:16px;font-weight:600;color:#20251F">Send us a message</span>
-                <span style="font-size:13.5px;line-height:1.5;color:#7C7868">Have a quick question? Reach our team directly by email.</span>
-              </span>
-              <span style="margin-left:auto;flex-shrink:0;color:#9A9486;font-size:18px;align-self:center">→</span>
-            </button>
-          </div>
-        </sc-if>
-
-        <!-- FEASIBILITY STUDY FORM -->
-        <sc-if value="{{ isFeasibility }}" hint-placeholder-val="{{ false }}">
-          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:14px">— Free feasibility study</div>
-          <h2 style="font-family:'Spectral',serif;font-size:28px;line-height:1.14;letter-spacing:-.01em;font-weight:500;margin-bottom:10px">Let's see what's possible on your site.</h2>
-          <p style="font-size:15px;line-height:1.6;color:#54594D;margin-bottom:30px;max-width:48ch">A few quick questions about your property and goals — our team will confirm feasibility and follow up within one business day.</p>
-          <form action="https://formspree.io/f/xnjkealb" method="POST" onSubmit="{{ submitFeasibility }}" style="display:flex;flex-direction:column;gap:26px">
-            <input type="hidden" name="form_type" value="Feasibility study request">
-            <input type="hidden" name="_subject" value="New feasibility study request – MAVE website">
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:12px">Contact info</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-                <input type="text" name="first_name" placeholder="First name" style="{{ inputStyle }}">
-                <input type="text" name="last_name" placeholder="Last name" style="{{ inputStyle }}">
-              </div>
-              <input type="email" name="email" placeholder="Email" style="{{ inputStyleFull }}">
-              <input type="tel" name="phone" placeholder="Phone" style="{{ inputStyleFull }}">
-            </div>
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:12px">Your property</div>
-              <input type="text" name="address" placeholder="Installation address" style="{{ inputStyleFull }}">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                <input type="text" name="zip" placeholder="ZIP code" style="{{ inputStyle }}">
-                <input type="text" name="city" placeholder="City, state" style="{{ inputStyle }}">
-              </div>
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:#20251F;margin-bottom:10px">Do you currently own the property?</div>
-              <input type="hidden" name="owns_property" value="{{ feasOwn }}">
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ feasOwnOptions }}" as="opt" hint-placeholder-count="3">
-                  <button type="button" onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
-                </sc-for>
-              </div>
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:#20251F;margin-bottom:10px">Property type</div>
-              <input type="hidden" name="property_type" value="{{ feasPropType }}">
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ feasPropTypeOptions }}" as="opt" hint-placeholder-count="3">
-                  <button type="button" onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
-                </sc-for>
-              </div>
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:#20251F;margin-bottom:10px">Which unit interests you?</div>
-              <input type="hidden" name="unit_interested" value="{{ feasUnit }}">
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ feasUnitOptions }}" as="opt" hint-placeholder-count="4">
-                  <button type="button" onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
-                </sc-for>
-              </div>
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:#20251F;margin-bottom:10px">Timeline</div>
-              <input type="hidden" name="timeline" value="{{ feasTimeline }}">
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ feasTimelineOptions }}" as="opt" hint-placeholder-count="4">
-                  <button type="button" onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
-                </sc-for>
-              </div>
-            </div>
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:12px">Anything else we should know? <span style="text-transform:none;letter-spacing:0;color:#B3AC9C">(optional)</span></div>
-              <textarea name="notes" placeholder="Site details, questions, or context that would help our review" rows="3" style="{{ textareaStyle }}"></textarea>
-            </div>
-            <sc-if value="{{ feasError }}" hint-placeholder-val="{{ false }}">
-              <div style="font-size:13.5px;color:#9A5A3C">Something went wrong sending your request. Please try again, or reach us directly.</div>
-            </sc-if>
-            <button type="submit" disabled="{{ feasSubmitting }}" style="{{ submitStyle }}">{{ feasSubmitLabel }}</button>
-          </form>
-        </sc-if>
-
-        <!-- MESSAGE FORM -->
-        <sc-if value="{{ isMessage }}" hint-placeholder-val="{{ false }}">
-          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:14px">— Send a message</div>
-          <h2 style="font-family:'Spectral',serif;font-size:28px;line-height:1.14;letter-spacing:-.01em;font-weight:500;margin-bottom:10px">Send us a message.</h2>
-          <p style="font-size:15px;line-height:1.6;color:#54594D;margin-bottom:30px;max-width:48ch">Have a question about Hearth Studio, Grove Studio, or Hearth 1B1B? Use this form and a MAVE specialist will get back to you within one business day.</p>
-          <form action="https://formspree.io/f/xnjkealb" method="POST" onSubmit="{{ submitMessage }}" style="display:flex;flex-direction:column;gap:26px">
-            <input type="hidden" name="form_type" value="Website message">
-            <input type="hidden" name="_subject" value="New website message – MAVE website">
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:12px">Contact info</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-                <input type="text" name="first_name" placeholder="First name" style="{{ inputStyle }}">
-                <input type="text" name="last_name" placeholder="Last name" style="{{ inputStyle }}">
-              </div>
-              <input type="email" name="email" placeholder="Email" style="{{ inputStyleFull }}">
-              <input type="tel" name="phone" placeholder="Phone" style="{{ inputStyleFull }}">
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:600;color:#20251F;margin-bottom:10px">What's this about?</div>
-              <input type="hidden" name="product" value="{{ msgProduct }}">
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ msgProductOptions }}" as="opt" hint-placeholder-count="4">
-                  <button type="button" onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
-                </sc-for>
-              </div>
-            </div>
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:12px">Your message</div>
-              <textarea name="message" placeholder="How can we help?" rows="5" style="{{ textareaStyle }}"></textarea>
-            </div>
-            <sc-if value="{{ msgError }}" hint-placeholder-val="{{ false }}">
-              <div style="font-size:13.5px;color:#9A5A3C">Something went wrong sending your message. Please try again, or reach us directly.</div>
-            </sc-if>
-            <button type="submit" disabled="{{ msgSubmitting }}" style="{{ submitStyle }}">{{ msgSubmitLabel }}</button>
-          </form>
-        </sc-if>
-
-        <!-- DONE -->
-        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-direction:column;align-items:flex-start;padding:20px 0 8px">
-            <span style="width:48px;height:48px;border-radius:50%;background:#E4EBE1;display:flex;align-items:center;justify-content:center;color:#2F4A38;margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></span>
-            <h2 style="font-family:'Spectral',serif;font-size:28px;line-height:1.14;letter-spacing:-.01em;font-weight:500;margin-bottom:12px">Thanks for reaching out.</h2>
-            <p style="font-size:15px;line-height:1.6;color:#54594D;margin-bottom:28px;max-width:46ch">We've received your message and will get back to you as soon as possible.</p>
-            <button onClick="{{ closeContact }}" style="{{ submitStyle }}max-width:220px">Close</button>
-          </div>
-        </sc-if>
-
-      </div>
-    </div>
-  </sc-if>
-
-  <!-- BREADCRUMB + TITLE -->
-  <section style="max-width:1280px;margin:0 auto;padding:40px 44px 0">
-    <a href="index.html#plans" style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#54594D;text-decoration:none">← All floor plans</a>
-    <div style="margin-top:24px">
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:16px">Series 01 · Studio · ADU</div>
-      <h1 style="font-family:'Spectral',serif;font-size:60px;line-height:1.0;letter-spacing:-.02em;font-weight:500">Hearth · Studio</h1>
-    </div>
-  </section>
-
-  <!-- HERO RENDER (full-bleed) -->
-  <section style="width:100%;margin-top:32px">
-    <img src="assets/hero-render-dark.png" alt="" style="width:100%;height:640px;border-top:1px solid #E2DDD0;border-bottom:1px solid #E2DDD0;object-fit:cover;display:block">
-  </section>
-
-  <!-- OVERVIEW + EXTERIOR (image bleeds right) -->
-  <section style="width:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:64px 0 24px">
-    <div style="padding-left:max(44px,calc((100vw - 1280px)/2 + 44px));padding-right:52px;max-width:760px">
-      <div style="margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #E2DDD0">
-        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9486;margin-bottom:10px">Starting at</div>
-        <div style="font-family: Times New Roman; font-size: 50px; font-weight: 500; letter-spacing: -.02em; color: #20251F; line-height: .95; margin-bottom: 10px">$65,000</div>
-        <div style="font-size:13.5px;color:#7C7868">Construction Package + Shipping Included</div>
-      </div>
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— Overview</div>
-      <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.12;letter-spacing:-.01em;font-weight:500;margin-bottom:22px;max-width:480px">A complete home, in its most essential form.</h2>
-      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px;margin-bottom:18px">The Hearth Studio fits everything you need — kitchen, bath, living and sleeping — into a single refined footprint designed for backyard living. No compromise on quality; just a smarter use of space.</p>
-      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px">Whether you're housing a family member, hosting a long-term guest, or generating rental income, this is the ADU that works as hard as you do.</p>
-      <div style="border-top:1px solid #E2DDD0;padding-top:26px;margin-top:32px">
-        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:14px">Keywords</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">Backyard ADU</span>
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">Compact living</span>
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">All-in-one layout</span>
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">Rental-ready</span>
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">Efficient footprint</span>
-          <span style="font-size:12.5px;color:#4A4F44;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:100px;padding:6px 13px">Independent living</span>
-        </div>
-      </div>
-    </div>
-    <div style="overflow: hidden; height: 640px; width: 685px">
-      <img src="https://i.ibb.co/ZpKJpHzH/Studio-Living-room.jpg" alt="" style="width: 100%; height: 527px; object-fit:cover; display:block">
-    </div>
-  </section>
-
-  <!-- EXTERIOR + SPECS (image bleeds left) -->
-  <section style="width:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:24px 0 72px">
-    <div style="overflow: hidden; height: 503px; width: 707px">
-      <img src="assets/studio-exterior-view-3.png" alt="" style="width: 757px; height: 503px; object-fit:cover; display:block">
-    </div>
-    <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:30px;align-self:center;margin-left:52px;margin-right:max(44px,calc((100vw - 1280px)/2 + 44px))">
-      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9486;margin-bottom:20px">Specifications</div>
-      <div style="display:flex;flex-direction:column">
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="19" height="7" rx="1.2"></rect><path d="M7 8.5v2.5M11 8.5v3M15 8.5v2.5M19 8.5v2"></path></svg></span>
-          <span style="flex:1;color:#54594D">Floor area</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">375 sq ft</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.8"></circle><path d="M3.6 19c0-2.9 2.4-4.8 5.4-4.8s5.4 1.9 5.4 4.8"></path><path d="M16 5.6a2.8 2.8 0 010 5.2"></path><path d="M17.4 19c0-2.4-1.1-3.9-2.9-4.5"></path></svg></span>
-          <span style="flex:1;color:#54594D">Sleeps</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">1–2</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V6.5"></path><path d="M3 12h15a3 3 0 013 3v3"></path><path d="M3 18h18"></path><path d="M3 15h18"></path><rect x="6" y="8.6" width="4.4" height="3.4" rx="1.1"></rect></svg></span>
-          <span style="flex:1;color:#54594D">Bedrooms</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">Studio</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5h16"></path><path d="M5 12.5v2.5a3.5 3.5 0 003.5 3.5h7A3.5 3.5 0 0019 15v-2.5"></path><path d="M7 12.5V7.2A2.1 2.1 0 019.1 5.1a2.1 2.1 0 012 1.5"></path><path d="M7.3 21l.7-1.2M16.7 21l-.7-1.2"></path></svg></span>
-          <span style="flex:1;color:#54594D">Bathrooms</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">1</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="1.4"></rect><path d="M3.5 10h17M10 10v10.5"></path></svg></span>
-          <span style="flex:1;color:#54594D">Footprint</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">12'-2" × 31'-0"</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17"></path><path d="M8.5 7 12 3.5 15.5 7"></path><path d="M8.5 17 12 20.5 15.5 17"></path><path d="M5 3.5h14M5 20.5h14"></path></svg></span>
-          <span style="flex:1;color:#54594D">Height</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">12.5 ft</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:13px;padding:13px 0">
-          <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.5H7A1.5 1.5 0 005.5 5v14A1.5 1.5 0 007 20.5h10a1.5 1.5 0 001.5-1.5V8.5z"></path><path d="M13.5 3.5V8.5h5"></path><path d="M8.6 14l2.2 2.2 4.4-4.4"></path></svg></span>
-          <span style="flex:1;color:#54594D">Permit set</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">Included</span>
-        </div>
-      </div>
-      <a href="#" onClick="{{ openContact }}" style="display:block;text-align:center;margin-top:24px;font-size:15px;font-weight:600;color:#F3EFE6;background:#2F4A38;padding:14px;border-radius:8px;text-decoration:none">Get a quote</a>
-    </div>
-  </section>
-
-  <!-- FLOOR PLAN -->
-  <section style="border-top:1px solid #E2DDD0;background:#EDE8DB">
-    <div style="max-width:1280px;margin:0 auto;padding:72px 44px">
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— Floor plan</div>
-      <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin-bottom:36px">The layout</h2>
-      <img src="https://i.ibb.co/MjKGzwy/Untitled-1.jpg" alt="" style="width:100%;height:520px;border:1px solid #E2DDD0;background:#FBF9F4;border-radius:16px;object-fit:contain;display:block">
-    </div>
-  </section>
-
-  <!-- PACKAGE CONTENTS -->
-  <section style="border-top:1px solid #E2DDD0;background:#F3EFE6">
-    <div style="max-width:1280px;margin:0 auto;padding:80px 44px">
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— What's included</div>
-      <h2 style="font-family:'Spectral',serif;font-size:38px;line-height:1.08;letter-spacing:-.02em;font-weight:500;margin-bottom:14px">In the package</h2>
-      <p style="font-size:16.5px;line-height:1.6;color:#54594D;max-width:560px;margin-bottom:52px">Every Hearth Studio ships as a complete, build-ready kit — here's exactly what's in the box, and what your local contractor sources and handles on site.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:36px">
-
-        <!-- Included -->
-        <div>
-          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#2F4A38;background:#E4EBE1;border:1px solid #CBD8C6;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Included</span>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Design &amp; engineering</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Design &amp; engineering, including 1 free design revision cycle · stamped permit-ready drawing sets</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Build support</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Full-build construction consulting · general contractor training</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Shipping</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Construction kit shipping — NY, NJ, OR, CA, WA</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Structure</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">SIPs structural panel kit — exterior enclosure · steel + insulation panels — interior framing</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Windows and weatherproofing</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Windows &amp; exterior doors · weatherproofing and functional membranes</p>
-          </div>
-        </div>
-
-        <!-- Optional -->
-        <div>
-          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#8A6A2F;background:#F1E9D6;border:1px solid #E3D3A8;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 8v4.5l3 2"></path></svg>Optional</span>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Permitting</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Permitting submission on your behalf</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Roofing and siding</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Standing seam metal roof system · exterior siding system — various colors</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Interior finishes</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Interior wall finish panels — gypsum board / marine plywood · interior flooring — vinyl / engineered · interior door &amp; trim</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:10px">Casework</h3>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <span style="font-size:15px;line-height:1.5;color:#54594D">Kitchen casework — various finishes</span>
-              <span style="font-size:15px;line-height:1.5;color:#54594D">Storage casework — various finishes</span>
-              <span style="font-size:15px;line-height:1.5;color:#54594D">Bathroom casework — various finishes</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Offered -->
-        <div>
-          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#34547A;background:#E1E8F0;border:1px solid #C6D3E3;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.9 5 .4-3.8 3.3 1.2 4.9-4.1-2.6-4.1 2.6 1.2-4.9-3.8-3.3 5-.4z"></path></svg>Offered</span>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Construction network</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">We maintain a network of trusted local contractors, architects, and engineers who are familiar with our building system.</p>
-          </div>
-        </div>
-
-        <!-- Not included -->
-        <div>
-          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#9A5A3C;background:#F1E5DC;border:1px solid #E3CBBB;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>Not included</span>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Construction and site</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Foundation and site work · on-site construction · utilities hookups</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">MEP systems</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Electrical system · plumbing system · HVAC system</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Interior installation</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Interior finish/casework installation · lighting fixtures</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- PERFORMANCE -->
-  <section style="border-top:1px solid #E2DDD0;background:#EDE8DB">
-    <div style="max-width:1280px;margin:0 auto;padding:72px 44px">
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— Performance</div>
-      <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin-bottom:40px">Built to outperform from day one.</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-        <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">~50%</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Faster shell assembly vs. stick frame</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">SIPs industry standard — assembly in days, not weeks.</p>
-        </div>
-        <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">~40–60%</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Better thermal performance</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">vs. standard 2×6 stud wall — continuous insulation, no thermal bridging.</p>
-        </div>
-        <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">7 day</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">To stand the structural shell</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">For a compact footprint with an experienced crew.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEXT PLAN / CTA -->
-  <section style="max-width:1280px;margin:0 auto;padding:40px 44px 96px">
-    <div style="background:#2F4A38;border-radius:22px;padding:64px 56px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px">
-      <div>
-        <h2 style="font-family:'Spectral',serif;font-size:38px;line-height:1.05;letter-spacing:-.02em;font-weight:500;color:#F3EFE6;max-width:480px;margin-bottom:12px">Make the Hearth Studio yours.</h2>
-        <p style="font-size:16.5px;line-height:1.55;color:#C2CBBE;max-width:420px">Book a free consult to price your build and adapt the plan to your lot.</p>
-      </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="#" onClick="{{ openContact }}" style="font-size:16px;font-weight:600;color:#2F4A38;background:#F3EFE6;padding:15px 26px;border-radius:8px;text-decoration:none">Book a free consult</a>
-        <a href="grove-loft.html" style="font-size:16px;font-weight:600;color:#F3EFE6;background:transparent;border:1px solid #5B7263;padding:15px 26px;border-radius:8px;text-decoration:none">Next: Grove Studio →</a>
-      </div>
-    </div>
-  </section>
-
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  state = { aduOpen: false, scrolled: false, contactOpen: false, contactStep: 'menu', feasOwn: '', feasPropType: '', feasUnit: '', feasTimeline: '', msgProduct: '' };
-  _submitToFormspree(form) {
-    return fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+  // src/react.ts
+  function getReact() {
+    const R = window.React;
+    if (!R) throw new Error("dc-runtime: window.React is not available yet");
+    return R;
   }
-  componentDidMount() {
-    this._onScroll = () => { const s = window.scrollY > 30; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
-    window.addEventListener('scroll', this._onScroll, { passive: true });
-    this._onScroll();
+  function getReactDOM() {
+    const RD = window.ReactDOM;
+    if (!RD) throw new Error("dc-runtime: window.ReactDOM is not available yet");
+    return RD;
   }
-  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
-  renderVals() {
-    const scrolled = this.state.scrolled;
-    const navStyle = "position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:17px 40px;transition:background-color .35s ease, backdrop-filter .35s ease, border-color .35s ease;border-bottom:1px solid " + (scrolled ? "rgba(59,54,48,.14)" : "#2f4836eb") + ";" + (scrolled ? "background-color:rgba(243,239,230,.72);backdrop-filter:blur(14px) saturate(1.08);-webkit-backdrop-filter:blur(14px) saturate(1.08);" : "background-color:#3B3630;backdrop-filter:none;-webkit-backdrop-filter:none;");
-    const navText = scrolled ? '#3B3630' : '#f3efe6';
-    const logoBrownOpacity = scrolled ? 1 : 0;
-    const ctaStyle = "font-size:14px;font-weight:600;padding:10px 18px;border-radius:6px;text-decoration:none;transition:background-color .35s ease, color .35s ease;" + (scrolled ? "background-color:#3B3630;color:#f3efe6;" : "background-color:#f3efe6;color:#3b5444;");
-    const menuBase = "position:absolute;top:100%;left:0;right:0;width:100%;background:#3B3630;padding:42px 40px 46px;display:flex;justify-content:center;align-items:stretch;gap:0;z-index:59;box-shadow:0 26px 40px -22px rgba(0,0,0,.45);transition:opacity .22s ease, transform .22s ease;";
-    const aduMenuStyle = this.state.aduOpen
-      ? menuBase + "opacity:1;visibility:visible;transform:translateY(0);"
-      : menuBase + "opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-12px);";
-    const buildOptions = (options, selected, setter) => options.map(label => ({
-      label,
-      style: "padding:9px 15px;border-radius:100px;border:1px solid " + (selected === label ? "#2F4A38" : "#D8D3C6") + ";background:" + (selected === label ? "#2F4A38" : "#FFFFFF") + ";color:" + (selected === label ? "#F3EFE6" : "#54594D") + ";font-size:13.5px;font-family:'Schibsted Grotesk',system-ui,sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s ease, color .15s ease, border-color .15s ease",
-      onClick: () => setter(label)
-    }));
-    const feasOwnOptions = buildOptions(['Yes', 'Not yet', 'Renting'], this.state.feasOwn, v => this.setState({ feasOwn: v }));
-    const feasPropTypeOptions = buildOptions(['Single-family lot', 'Multi-family', 'Land only'], this.state.feasPropType, v => this.setState({ feasPropType: v }));
-    const feasUnitOptions = buildOptions(['Hearth Studio', 'Grove Studio', 'Hearth 1B1B', 'Not sure yet'], this.state.feasUnit, v => this.setState({ feasUnit: v }));
-    const feasTimelineOptions = buildOptions(['ASAP', '3–6 months', '6–12 months', 'Just exploring'], this.state.feasTimeline, v => this.setState({ feasTimeline: v }));
-    const msgProductOptions = buildOptions(['Hearth Studio', 'Grove Studio', 'Hearth 1B1B', 'General question'], this.state.msgProduct, v => this.setState({ msgProduct: v }));
-    const inputStyle = "width:100%;padding:13px 14px;border-radius:8px;border:1px solid #D8D3C6;background:#FFFFFF;color:#20251F;font-size:14.5px;font-family:'Schibsted Grotesk',system-ui,sans-serif;outline:none";
-    const inputStyleFull = inputStyle + ";margin-bottom:10px";
-    const textareaStyle = inputStyle + ";resize:vertical;font-family:'Schibsted Grotesk',system-ui,sans-serif";
-    const submitStyle = "margin-top:4px;width:100%;padding:15px 20px;border-radius:8px;border:none;background:#2F4A38;color:#F3EFE6;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s ease";
-    const backBtnStyle = "position:absolute;top:22px;left:44px;display:inline-flex;align-items:center;gap:6px;border:none;background:transparent;color:#9A9486;font-size:14px;font-weight:500;cursor:pointer;padding:4px 2px";
-    const contactStep = this.state.contactStep;
-    const isMenu = contactStep === 'menu';
-    const isFeasibility = contactStep === 'feasibility';
-    const isMessage = contactStep === 'message';
-    const isDone = contactStep === 'done-feasibility' || contactStep === 'done-message';
-    const showBack = isFeasibility || isMessage;
-    const feasSubmitting = !!this.state.feasSubmitting;
-    const msgSubmitting = !!this.state.msgSubmitting;
-    const feasError = !!this.state.feasError;
-    const msgError = !!this.state.msgError;
-    const feasSubmitLabel = feasSubmitting ? 'Sending…' : 'Request my free feasibility study';
-    const msgSubmitLabel = msgSubmitting ? 'Sending…' : 'Send message';
-    const openContact = (e) => { if (e) e.preventDefault(); this.setState({ contactOpen: true, contactStep: 'menu' }); };
-    const closeContact = () => this.setState({ contactOpen: false });
-    const closeContactBackdrop = (e) => { if (e.target === e.currentTarget) this.setState({ contactOpen: false }); };
-    const stopProp = (e) => e.stopPropagation();
-    const goFeasibility = () => this.setState({ contactStep: 'feasibility' });
-    const goMessage = () => this.setState({ contactStep: 'message' });
-    const backToMenu = () => this.setState({ contactStep: 'menu' });
-    const submitFeasibility = (e) => {
-      e.preventDefault();
-      const form = e.target;
-      this.setState({ feasSubmitting: true, feasError: false });
-      this._submitToFormspree(form).then(res => {
-        if (res.ok) this.setState({ contactStep: 'done-feasibility', feasSubmitting: false });
-        else this.setState({ feasSubmitting: false, feasError: true });
-      }).catch(() => this.setState({ feasSubmitting: false, feasError: true }));
+  var h = ((...args) => getReact().createElement(
+    ...args
+  ));
+
+  // src/parse.ts
+  function parseDcDocument(doc) {
+    const dc = doc.querySelector("x-dc");
+    if (!dc) return null;
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template: dc.innerHTML,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
     };
-    const submitMessage = (e) => {
-      e.preventDefault();
-      const form = e.target;
-      this.setState({ msgSubmitting: true, msgError: false });
-      this._submitToFormspree(form).then(res => {
-        if (res.ok) this.setState({ contactStep: 'done-message', msgSubmitting: false });
-        else this.setState({ msgSubmitting: false, msgError: true });
-      }).catch(() => this.setState({ msgSubmitting: false, msgError: true }));
+  }
+  function parseDcText(src) {
+    const openMatch = /<x-dc(?:\s[^>]*)?>/.exec(src);
+    if (!openMatch) return null;
+    const close = src.lastIndexOf("</x-dc>");
+    if (close === -1 || close < openMatch.index) return null;
+    const template = src.slice(openMatch.index + openMatch[0].length, close);
+    const doc = new DOMParser().parseFromString(src, "text/html");
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
+    };
+  }
+  function parseDataProps(raw) {
+    if (!raw) return { props: null, preview: null };
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { props: null, preview: null };
+    }
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return { props: null, preview: null };
+    }
+    const obj = parsed;
+    const preview = obj.$preview && typeof obj.$preview === "object" ? obj.$preview : null;
+    const rest = {};
+    for (const k of Object.keys(obj)) {
+      if (k[0] !== "$") rest[k] = obj[k];
+    }
+    return { props: Object.keys(rest).length ? rest : null, preview };
+  }
+  function dcNameFromPath(pathname) {
+    let p = pathname || "";
+    try {
+      p = decodeURIComponent(p);
+    } catch {
+    }
+    const base = p.split("/").pop() || "Root";
+    return base.replace(/\.dc\.html$/, "").replace(/\.html?$/, "") || "Root";
+  }
+
+  // src/boot.ts
+  var BASE_CSS = `
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts \u2014 keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  `;
+  var FULL_PAGE_CSS = "html,body{height:100%;margin:0}#dc-root,#dc-root>.sc-host{height:100%}";
+  function rootNameForDocument(doc, loc) {
+    let bootPath = loc.pathname || "";
+    if (!/\.dc\.html?$/i.test(safeDecode(bootPath))) {
+      try {
+        bootPath = new URL(doc.baseURI || "/").pathname;
+      } catch {
+      }
+    }
+    return dcNameFromPath(bootPath);
+  }
+  function safeDecode(s) {
+    try {
+      return decodeURIComponent(s);
+    } catch {
+      return s;
+    }
+  }
+  function boot(runtime, doc = document) {
+    const parsed = parseDcDocument(doc);
+    if (!parsed) return null;
+    const React = getReact();
+    const rootName = rootNameForDocument(doc, location);
+    runtime.markFetched(rootName);
+    runtime.setRootName(rootName);
+    runtime.adoptParsed(rootName, parsed);
+    if (!window.__resources) {
+      fetch(location.href).then((res) => res.ok ? res.text() : "").then((t) => {
+        const raw = t ? parseDcText(t) : null;
+        if (raw?.template) runtime.updateHtml(rootName, raw.template);
+      }).catch(() => {
+      });
+    }
+    const dc = doc.querySelector("x-dc");
+    const hostEl = doc.createElement("div");
+    hostEl.id = "dc-root";
+    dc.replaceWith(hostEl);
+    if (!parsed.preview) {
+      const s = doc.createElement("style");
+      s.textContent = FULL_PAGE_CSS;
+      doc.head.appendChild(s);
+    }
+    const Root = runtime.getDC(rootName);
+    const entry = runtime.registry.get(rootName);
+    function StandaloneRoot() {
+      const [, setTick] = React.useState(0);
+      React.useEffect(() => {
+        const sub = () => setTick((n) => n + 1);
+        entry.subs.add(sub);
+        return () => {
+          entry.subs.delete(sub);
+        };
+      }, []);
+      const defaults = React.useMemo(() => {
+        const d = {};
+        for (const k in entry.propsMeta || {}) {
+          const v = entry.propsMeta?.[k]?.default;
+          if (v !== void 0) d[k] = v;
+        }
+        return d;
+      }, [entry.propsMeta]);
+      return h(Root, { ...defaults, ...entry.propOverrides || {} });
+    }
+    const ReactDOM = getReactDOM();
+    if (ReactDOM.createRoot)
+      ReactDOM.createRoot(hostEl).render(h(StandaloneRoot));
+    else ReactDOM.render(h(StandaloneRoot), hostEl);
+    return rootName;
+  }
+
+  // src/expr.ts
+  var IDENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]*/;
+  var NUMBER_RE = /^-?\d+(\.\d+)?$/;
+  function resolve(vals, src) {
+    const expr = String(src).trim();
+    if (!expr) return void 0;
+    if (expr[0] === "(" && expr[expr.length - 1] === ")" && parensWrapWhole(expr)) {
+      return resolve(vals, expr.slice(1, -1));
+    }
+    const eq = findTopLevelEquality(expr);
+    if (eq) {
+      const lv = resolve(vals, expr.slice(0, eq.index));
+      const rv = resolve(vals, expr.slice(eq.index + eq.op.length));
+      switch (eq.op) {
+        case "===":
+          return lv === rv;
+        case "!==":
+          return lv !== rv;
+        case "==":
+          return lv == rv;
+        default:
+          return lv != rv;
+      }
+    }
+    if (expr[0] === "!") return !resolve(vals, expr.slice(1));
+    if (expr === "true") return true;
+    if (expr === "false") return false;
+    if (expr === "null") return null;
+    if (expr === "undefined") return void 0;
+    if (NUMBER_RE.test(expr)) return Number(expr);
+    if (expr.length >= 2 && (expr[0] === '"' || expr[0] === "'") && expr[expr.length - 1] === expr[0]) {
+      return expr.slice(1, -1);
+    }
+    return resolvePath(vals, expr);
+  }
+  function parensWrapWhole(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length - 1; i++) {
+      if (expr[i] === "(") depth++;
+      else if (expr[i] === ")") {
+        depth--;
+        if (depth === 0) return false;
+      }
+    }
+    return true;
+  }
+  function findTopLevelEquality(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length; i++) {
+      const c = expr[i];
+      if (c === "[" || c === "(") depth++;
+      else if (c === "]" || c === ")") depth--;
+      else if (depth === 0 && (c === "=" || c === "!") && expr[i + 1] === "=") {
+        if (i > 0 && (expr[i - 1] === "=" || expr[i - 1] === "!")) continue;
+        if (!expr.slice(0, i).trim()) continue;
+        const op = expr[i + 2] === "=" ? c + "==" : c + "=";
+        return { index: i, op };
+      }
+    }
+    return null;
+  }
+  function resolvePath(vals, expr) {
+    const head = expr.match(IDENT_RE);
+    if (!head) return void 0;
+    let cur = vals == null ? void 0 : vals[head[0]];
+    let i = head[0].length;
+    while (i < expr.length) {
+      if (expr[i] === ".") {
+        const m = expr.slice(i + 1).match(IDENT_RE) || expr.slice(i + 1).match(/^\d+/);
+        if (!m) return void 0;
+        cur = cur == null ? void 0 : cur[m[0]];
+        i += 1 + m[0].length;
+      } else if (expr[i] === "[") {
+        let depth = 1;
+        let j = i + 1;
+        while (j < expr.length && depth > 0) {
+          if (expr[j] === "[") depth++;
+          else if (expr[j] === "]") {
+            depth--;
+            if (depth === 0) break;
+          }
+          j++;
+        }
+        if (depth !== 0) return void 0;
+        const key = resolve(vals, expr.slice(i + 1, j));
+        cur = cur == null ? void 0 : cur[key];
+        i = j + 1;
+      } else {
+        return void 0;
+      }
+    }
+    return cur;
+  }
+
+  // src/encode.ts
+  var CAMEL_ATTR = "sc-camel-";
+  var INLINE_TEXT_TAGS = new Set(
+    "a abbr b bdi bdo br cite code del dfn em i ins kbd mark q s samp small span strike strong sub sup u var wbr".split(
+      " "
+    )
+  );
+  var RAW_WRAP = {
+    select: "sc-raw-select",
+    table: "sc-raw-table",
+    tbody: "sc-raw-tbody",
+    thead: "sc-raw-thead",
+    tfoot: "sc-raw-tfoot",
+    tr: "sc-raw-tr",
+    td: "sc-raw-td",
+    th: "sc-raw-th",
+    caption: "sc-raw-caption"
+  };
+  var RAW_UNWRAP = Object.fromEntries(
+    Object.entries(RAW_WRAP).map(([k, v]) => [v, k])
+  );
+  var EVENT_MAP = {
+    onclick: "onClick",
+    onchange: "onChange",
+    oninput: "onInput",
+    onsubmit: "onSubmit",
+    onkeydown: "onKeyDown",
+    onkeyup: "onKeyUp",
+    onkeypress: "onKeyPress",
+    onmousedown: "onMouseDown",
+    onmouseup: "onMouseUp",
+    onmouseenter: "onMouseEnter",
+    onmouseleave: "onMouseLeave",
+    onfocus: "onFocus",
+    onblur: "onBlur",
+    ondoubleclick: "onDoubleClick",
+    oncontextmenu: "onContextMenu",
+    onmousemove: "onMouseMove",
+    onmouseover: "onMouseOver",
+    onmouseout: "onMouseOut",
+    onpointerdown: "onPointerDown",
+    onpointerup: "onPointerUp",
+    onpointermove: "onPointerMove",
+    onpointerenter: "onPointerEnter",
+    onpointerleave: "onPointerLeave",
+    onpointercancel: "onPointerCancel",
+    onpointerover: "onPointerOver",
+    onpointerout: "onPointerOut",
+    ongotpointercapture: "onGotPointerCapture",
+    onlostpointercapture: "onLostPointerCapture",
+    ontouchstart: "onTouchStart",
+    ontouchend: "onTouchEnd",
+    ontouchmove: "onTouchMove",
+    ontouchcancel: "onTouchCancel",
+    ondragstart: "onDragStart",
+    ondragend: "onDragEnd",
+    ondragenter: "onDragEnter",
+    ondragleave: "onDragLeave",
+    ondragover: "onDragOver",
+    onanimationstart: "onAnimationStart",
+    onanimationend: "onAnimationEnd",
+    onanimationiteration: "onAnimationIteration",
+    ontransitionend: "onTransitionEnd"
+  };
+  var ATTRS = `(?:[^>"']|"[^"]*"|'[^']*')*`;
+  var IMPORT_SELF_CLOSE_RE = new RegExp(
+    "<(x-import|dc-import)(" + ATTRS + ")/>",
+    "gi"
+  );
+  var CAMEL_ATTR_RE = /(\s)([a-z]+[A-Z][A-Za-z0-9]*)(\s*=)/g;
+  function encodeCamelAttrs(html) {
+    return html.replace(
+      CAMEL_ATTR_RE,
+      (_, sp, name, eq) => sp + CAMEL_ATTR + name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()) + eq
+    );
+  }
+  function encodeCase(html) {
+    html = html.replace(
+      IMPORT_SELF_CLOSE_RE,
+      (_, t, a) => "<" + t + a + "></" + t + ">"
+    );
+    html = html.replace(/<helmet(\s|>)/gi, "<sc-helmet$1");
+    html = html.replace(/<\/helmet\s*>/gi, "</sc-helmet>");
+    html = encodeCamelAttrs(html);
+    for (const [real, alias] of Object.entries(RAW_WRAP)) {
+      html = html.replace(
+        new RegExp("(</?)" + real + "(?=[\\s>])", "gi"),
+        "$1" + alias
+      );
+    }
+    return html;
+  }
+  function kebabToCamel(s) {
+    return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  }
+  function cssToObj(css) {
+    const o = {};
+    for (const decl of css.split(";")) {
+      const i = decl.indexOf(":");
+      if (i < 0) continue;
+      const prop = decl.slice(0, i).trim();
+      o[prop.startsWith("--") ? prop : kebabToCamel(prop)] = decl.slice(i + 1).trim();
+    }
+    return o;
+  }
+  function compileAttr(raw) {
+    const whole = raw.match(/^\s*\{\{([\s\S]+?)\}\}\s*$/);
+    if (whole) {
+      const path = whole[1];
+      return (vals) => resolve(vals, path);
+    }
+    if (raw.includes("{{")) {
+      const parts = raw.split(/\{\{([\s\S]+?)\}\}/g);
+      return (vals) => parts.map((s, i) => i & 1 ? resolve(vals, s) ?? "" : s).join("");
+    }
+    return () => raw;
+  }
+
+  // src/compile.ts
+  function collectProps(node, kind, host) {
+    const propGetters = [];
+    const pseudoClasses = [];
+    let hintSize = null;
+    for (const { name, value } of [...node.attributes]) {
+      if (name === "sc-name" || name === "data-dc-tpl") continue;
+      let key = name;
+      if (key.startsWith(CAMEL_ATTR))
+        key = kebabToCamel(key.slice(CAMEL_ATTR.length));
+      if (key === "hint-size") {
+        hintSize = value;
+        continue;
+      }
+      if (key.startsWith("style-")) {
+        pseudoClasses.push(host.pseudoClass(key.slice(6), value));
+        continue;
+      }
+      if (kind !== "dom") {
+        if (key.includes("-") && !(kind === "x-import" && (key.startsWith("aria-") || key.startsWith("data-"))))
+          key = kebabToCamel(key);
+      } else {
+        if (key === "class") key = "className";
+        else if (key === "for") key = "htmlFor";
+        else if (key.startsWith("on"))
+          key = EVENT_MAP[key] || "on" + key[2].toUpperCase() + key.slice(3);
+      }
+      propGetters.push([key, compileAttr(value)]);
+    }
+    return { propGetters, pseudoClasses, hintSize };
+  }
+  var HOST_STYLE_PROPS = /* @__PURE__ */ new Set([
+    "position",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "inset",
+    "width",
+    "height",
+    "z-index",
+    "transform"
+  ]);
+  function hostPositionStyle(style) {
+    const all = typeof style === "string" ? cssToObj(style) : style != null && typeof style === "object" ? style : null;
+    if (!all) return void 0;
+    const out = {};
+    for (const [k, v] of Object.entries(all)) {
+      const kebab = k.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase());
+      if (HOST_STYLE_PROPS.has(kebab)) out[k] = v;
+    }
+    return Object.keys(out).length ? out : void 0;
+  }
+  function compileTemplate(html, host) {
+    const tpl = document.createElement("template");
+    //! nosemgrep: direct-inner-html-assignment
+    tpl.innerHTML = encodeCase(html);
+    let tplN = 0;
+    (function stamp(node) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        node.setAttribute("data-dc-tpl", String(tplN++));
+      }
+      for (const c of node.childNodes) stamp(c);
+    })(tpl.content);
+    const builders = walkChildren(tpl.content, host);
+    const render = ((vals, ctx) => builders.map((b, i) => b(vals || {}, ctx, i)));
+    render.__annotated = tpl.innerHTML;
+    return render;
+  }
+  function walkChildren(node, host) {
+    return [...node.childNodes].map((c) => walk(c, host)).filter((b) => b != null);
+  }
+  var SLIDE_ID_VALUE_RE = /^[0-9a-f]{8}$/;
+  var DECK_CONTROL_FLOW_RE = /^(sc-if|sc-for|sc-else|dc-import|x-import)$/;
+  var DECK_AUX_RE = /^(template|script|style|sc-helmet|helmet)$/;
+  function isDeckMountTag(el) {
+    if (el.localName === "deck-stage") return true;
+    return el.localName === "x-import" && (el.getAttribute("component-from-global-scope") || "") === "deck-stage";
+  }
+  function walkDeckChildren(el, host) {
+    const pairs = [...el.childNodes].map((c) => ({ c, b: walk(c, host) })).filter((p) => p.b !== null);
+    const kids = pairs.map((p) => p.b);
+    const seen = /* @__PURE__ */ new Set();
+    const wsSeen = /* @__PURE__ */ new Map();
+    const keys = [];
+    const nextSlideId = new Array(pairs.length);
+    {
+      let upcoming = null;
+      for (let j = pairs.length - 1; j >= 0; j--) {
+        const n = pairs[j].c;
+        if (n.nodeType === Node.ELEMENT_NODE) {
+          const t = n.localName;
+          upcoming = !DECK_AUX_RE.test(t) && !DECK_CONTROL_FLOW_RE.test(t) ? n.getAttribute("data-om-slide-id") : null;
+        }
+        nextSlideId[j] = upcoming;
+      }
+    }
+    for (let j = 0; j < pairs.length; j++) {
+      const { c } = pairs[j];
+      if (c.nodeType === Node.TEXT_NODE) {
+        if ((c.nodeValue ?? "").trim() === "") {
+          const base = nextSlideId[j] ? "omid-ws:" + nextSlideId[j] : "omid-ws:aux";
+          const n = wsSeen.get(base) ?? 0;
+          wsSeen.set(base, n + 1);
+          keys.push(n === 0 ? base : base + ":" + n);
+          continue;
+        }
+        return { kids, keys: null };
+      }
+      if (c.nodeType !== Node.ELEMENT_NODE) {
+        keys.push(j);
+        continue;
+      }
+      const child = c;
+      const tag = child.localName;
+      if (DECK_AUX_RE.test(tag)) {
+        keys.push(j);
+        continue;
+      }
+      if (DECK_CONTROL_FLOW_RE.test(tag)) return { kids, keys: null };
+      const v = child.getAttribute("data-om-slide-id");
+      if (!v || !SLIDE_ID_VALUE_RE.test(v) || seen.has(v)) {
+        return { kids, keys: null };
+      }
+      seen.add(v);
+      keys.push("omid:" + v);
+    }
+    return { kids, keys };
+  }
+  function renderDeckKids(kids, kidKeys, vals, ctx) {
+    return kids.map((b, j) => {
+      const k = kidKeys ? kidKeys[j] : j;
+      const out = b(vals, ctx, k);
+      return kidKeys != null && typeof out === "string" ? h(getReact().Fragment, { key: k }, out) : out;
+    });
+  }
+  function walk(node, host) {
+    if (node.nodeType === Node.TEXT_NODE) return walkText(node);
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+    const el = node;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "sc-for") return walkFor(el, host);
+    if (tag === "sc-if") return walkIf(el, host);
+    if (tag === "x-import") return walkXImport(el, host);
+    if (tag === "sc-helmet") return host.helmet(el);
+    if (tag === "dc-import") return walkComponent(el, host);
+    return walkElement(el, host);
+  }
+  var warnedHoles = /* @__PURE__ */ new Set();
+  function warnUnresolved(ctx, what) {
+    const key = (ctx?.__name || "?") + "\0" + what;
+    if (warnedHoles.has(key)) return;
+    warnedHoles.add(key);
+    console.warn("[dc-runtime] " + (ctx?.__name || "template") + ": " + what);
+  }
+  function walkText(node) {
+    const txt = node.nodeValue ?? "";
+    if (!txt.includes("{{")) {
+      if (!txt.trim() && !txt.includes(" ")) return null;
+      return () => txt;
+    }
+    const parts = txt.split(/\{\{([\s\S]+?)\}\}/g);
+    return (vals, ctx, key) => h(
+      getReact().Fragment,
+      { key },
+      ...parts.map((p, i) => {
+        if (!(i & 1)) return p;
+        const v = resolve(vals, p);
+        if (v === void 0) {
+          if (!ctx?.__streamingNow) {
+            if (document.body?.hasAttribute("data-dc-editor-on")) {
+              return h(
+                "span",
+                { key: i, className: "sc-interp sc-unresolved" },
+                "{{ " + p.trim() + " }}"
+              );
+            }
+            warnUnresolved(
+              ctx,
+              "{{ " + p.trim() + " }} never resolved \u2014 rendered as empty"
+            );
+            return null;
+          }
+          return h(
+            "span",
+            { key: i, className: "sc-interp sc-missing" },
+            p.trim()
+          );
+        }
+        if (getReact().isValidElement(v) || Array.isArray(v)) {
+          return h(getReact().Fragment, { key: i }, v);
+        }
+        if (v === null || typeof v === "boolean") return null;
+        return h("span", { key: i, className: "sc-interp" }, String(v));
+      })
+    );
+  }
+  function walkFor(el, host) {
+    const listGet = compileAttr(el.getAttribute("list") || "");
+    const asName = el.getAttribute("as") || "item";
+    const hintN = parseInt(el.getAttribute("hint-placeholder-count") || "0", 10);
+    const kids = walkChildren(el, host);
+    const listSrc = el.getAttribute("list") || "";
+    return (vals, ctx, key) => {
+      let list = listGet(vals);
+      if (!Array.isArray(list)) {
+        if (!ctx?.__streamingNow) {
+          if (list !== void 0 && list !== null) {
+            warnUnresolved(
+              ctx,
+              'sc-for list="' + listSrc + '" is not an array (' + typeof list + ")"
+            );
+          }
+          list = [];
+        } else {
+          list = hintN > 0 ? Array(hintN).fill(void 0) : [];
+        }
+      }
+      return h(
+        getReact().Fragment,
+        { key },
+        list.map((item, i) => {
+          const sub = { ...vals, [asName]: item, $index: i };
+          return h(
+            getReact().Fragment,
+            { key: i },
+            kids.map((b, j) => b(sub, ctx, j))
+          );
+        })
+      );
+    };
+  }
+  function walkIf(el, host) {
+    const valGet = compileAttr(el.getAttribute("value") || "");
+    const hintRaw = el.getAttribute("hint-placeholder-val");
+    const hintGet = hintRaw != null ? compileAttr(hintRaw) : null;
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      let v = valGet(vals);
+      if (v === void 0 && hintGet && ctx?.__streamingNow) v = hintGet(vals);
+      return v ? h(
+        getReact().Fragment,
+        { key },
+        kids.map((b, j) => b(vals, ctx, j))
+      ) : null;
+    };
+  }
+  function walkComponent(el, host) {
+    const name = el.getAttribute("name") || el.getAttribute("component") || "";
+    el.removeAttribute("name");
+    el.removeAttribute("component");
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const { propGetters, hintSize } = collectProps(el, "dc-import", host);
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      const props = {
+        key,
+        __hintSize: hintSize,
+        __tplId: tplId,
+        __hostStyle: styleGet ? hostPositionStyle(styleGet(vals)) : void 0
+      };
+      for (const [k, g] of propGetters) {
+        const v = g(vals);
+        if (k === "dcProps") {
+          if (v && typeof v === "object") Object.assign(props, v);
+          continue;
+        }
+        props[k] = v;
+      }
+      if (kids.length) props.children = kids.map((b, j) => b(vals, ctx, j));
+      return h(host.component(name), props);
+    };
+  }
+  function walkXImport(el, host) {
+    const globalNameGet = compileAttr(
+      el.getAttribute("component-from-global-scope") || ""
+    );
+    const exportNameGet = compileAttr(
+      el.getAttribute("component") || el.getAttribute("name") || ""
+    );
+    const fromRaw = el.getAttribute("from") || (el.getAttribute("component-from-global-scope") ? "" : el.getAttribute("src") || el.getAttribute("import") || "");
+    const urls = fromRaw.trim() ? fromRaw.trim().split(/\s+/) : [];
+    const url = urls.length ? urls[urls.length - 1] : "";
+    const kindOf = (u) => /\.(jsx|tsx)(\?|#|$)/i.test(u) ? "jsx" : "js";
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const wrap = tplId != null || styleGet != null;
+    const { propGetters, hintSize } = collectProps(el, "x-import", host);
+    const hasContent = el.children.length > 0 || !!(el.textContent || "").trim();
+    const deckKeyed = hasContent && isDeckMountTag(el) ? walkDeckChildren(el, host) : null;
+    const kids = deckKeyed ? deckKeyed.kids : hasContent ? walkChildren(el, host) : [];
+    const kidKeys = deckKeyed?.keys ?? null;
+    const urlBindable = fromRaw.includes("{{");
+    if (urls.length && !urlBindable) {
+      let prev;
+      for (const u of urls) prev = host.loadExternal(kindOf(u), u, prev);
+    }
+    const evalName = (g, vals) => {
+      const v = g(vals);
+      const s = v == null ? "" : String(v);
+      return s.includes("{{") ? "" : s;
+    };
+    return (vals, ctx, key) => {
+      const globalName = evalName(globalNameGet, vals);
+      const name = globalName || evalName(exportNameGet, vals);
+      const C = !name || urlBindable ? null : globalName ? host.resolveExternalGlobal(url, globalName) : host.resolveExternal(url, name);
+      const hostStyle = styleGet ? hostPositionStyle(styleGet(vals)) : void 0;
+      const wrapper = wrap ? {
+        key,
+        className: "sc-host-x",
+        "data-dc-tpl": tplId,
+        style: hostStyle || { display: "contents" }
+      } : null;
+      if (!C) {
+        const error = urlBindable ? "x-import `from` cannot contain {{ \u2026 }} \u2014 module URLs are resolved at parse time; use a literal URL" : host.resolveExternalError(url, name);
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      const props = wrapper ? {} : { key };
+      let unresolvedHole = false;
+      for (const [k, g] of propGetters) {
+        if (k === "component" || k === "componentFromGlobalScope" || k === "from") {
+          continue;
+        }
+        const v = g(vals);
+        if (v === void 0) unresolvedHole = true;
+        if (k === "dcProps") {
+          if (v && typeof v === "object") Object.assign(props, v);
+          continue;
+        }
+        props[k] = v;
+      }
+      if (unresolvedHole && ctx?.__htmlStreamingNow) {
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error: null
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      if (kids.length) {
+        props.children = renderDeckKids(kids, kidKeys, vals, ctx);
+      }
+      return wrapper ? h("div", wrapper, h(C, props)) : h(C, props);
+    };
+  }
+  function contentKey(el) {
+    const clone = el.cloneNode(true);
+    for (const d of clone.querySelectorAll("*")) {
+      while (d.attributes.length) d.removeAttribute(d.attributes[0].name);
+    }
+    const s = clone.innerHTML;
+    let h2 = 5381;
+    for (let i = 0; i < s.length; i++) h2 = (h2 << 5) + h2 + s.charCodeAt(i) | 0;
+    return s.length + "." + (h2 >>> 0).toString(36);
+  }
+  var NEVER_CONTENT_KEYED = new Set(
+    "script style textarea option title select canvas iframe video audio".split(
+      " "
+    )
+  );
+  var NOT_INLINE_SELECTOR = ":not(" + [...INLINE_TEXT_TAGS].join(",") + ")";
+  function walkElement(el, host) {
+    const realTag = RAW_UNWRAP[el.localName] || el.localName;
+    const tplId = el.getAttribute("data-dc-tpl");
+    const inlineOnly = el.childNodes.length > 0 && !NEVER_CONTENT_KEYED.has(realTag) && el.querySelector(NOT_INLINE_SELECTOR) === null;
+    const keySuffix = inlineOnly ? "|" + contentKey(el) : "";
+    const { propGetters, pseudoClasses } = collectProps(el, "dom", host);
+    const deckKeyed = isDeckMountTag(el) ? walkDeckChildren(el, host) : null;
+    const kids = deckKeyed ? deckKeyed.kids : walkChildren(el, host);
+    const kidKeys = deckKeyed?.keys ?? null;
+    return (vals, ctx, key) => {
+      const props = {
+        key: key + keySuffix,
+        "data-dc-tpl": tplId
+      };
+      for (const [k, g] of propGetters) {
+        let v = g(vals);
+        if (k === "style" && typeof v === "string") v = cssToObj(v);
+        if ((k === "value" || k === "checked") && v === void 0) {
+          v = k === "checked" ? false : "";
+        }
+        props[k] = v;
+      }
+      if (pseudoClasses.length) {
+        props.className = [props.className, ...pseudoClasses].filter(Boolean).join(" ");
+      }
+      return h(realTag, props, ...renderDeckKids(kids, kidKeys, vals, ctx));
+    };
+  }
+
+  // src/logic.ts
+  var StreamableLogic = class {
+    constructor(props) {
+      __publicField(this, "props");
+      __publicField(this, "state", {});
+      /** Back-pointer to the wrapper component, installed after construction. */
+      __publicField(this, "__host");
+      this.props = props || {};
+    }
+    setState(update, cb) {
+      this.__host && this.__host.__setLogicState(update, cb);
+    }
+    forceUpdate() {
+      this.__host && this.__host.forceUpdate();
+    }
+    componentDidMount() {
+    }
+    componentDidUpdate(_prevProps) {
+    }
+    componentWillUnmount() {
+    }
+    /** The flat object the template renders against (merged over props). */
+    renderVals() {
+      return {};
+    }
+  };
+  function evalDcLogic(src) {
+    //! nosemgrep: eval-and-function-constructor
+    const fn = new Function(
+      "DCLogic",
+      "StreamableLogic",
+      "React",
+      src + '\n;return (typeof Component!=="undefined"&&Component)||undefined;'
+    );
+    return fn(StreamableLogic, StreamableLogic, getReact());
+  }
+
+  // src/component.ts
+  function shallowEqual(a, b) {
+    if (!b) return false;
+    const ak = Object.keys(a).filter((k) => k !== "children");
+    const bk = Object.keys(b).filter((k) => k !== "children");
+    if (ak.length !== bk.length) return false;
+    for (const k of ak) if (a[k] !== b[k]) return false;
+    return true;
+  }
+  function Placeholder({
+    name,
+    hintSize,
+    streaming,
+    error
+  }) {
+    const [w, hgt] = (hintSize || "100%,60px").split(",");
+    return h(
+      "div",
+      {
+        className: "sc-placeholder" + (streaming ? " sc-streaming" : ""),
+        style: { width: w.trim(), height: hgt && hgt.trim() },
+        title: name
+      },
+      error ? h(
+        "div",
+        { className: "sc-placeholder-error" },
+        (name ? name + ": " : "") + error
+      ) : null
+    );
+  }
+  function hintToMin(hint) {
+    if (!hint) return void 0;
+    const [w, hgt] = hint.split(",");
+    return { minWidth: w.trim(), minHeight: hgt && hgt.trim() };
+  }
+  function createComponentFactory(registry, ensureFetched) {
+    const React = getReact();
+    const AncestorContext = React.createContext([]);
+    class StreamableComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        __publicField(this, "__name");
+        __publicField(this, "__sub");
+        __publicField(this, "__needsDidMount", false);
+        /** Snapshot of the registry's streaming flags taken at render time —
+         *  builders read it off the RenderCtx (this) to pick placeholder vs
+         *  render-nothing for unresolved values. */
+        __publicField(this, "__streamingNow", false);
+        __publicField(this, "__htmlStreamingNow", false);
+        /** When a construct throws, remember the (class, registry.ver, props)
+         *  triple so render-time reconcile doesn't re-attempt it on every parent
+         *  re-render. A registry bump (new class, template, external module
+         *  resolving via bumpAll) changes `ver` and breaks the memo so an
+         *  env-dependent constructor can self-heal. */
+        __publicField(this, "__failedLogic", null);
+        __publicField(this, "__failedUserProps", null);
+        __publicField(this, "__failedVer", -1);
+        /** Per-instance constructor error — kept here (not on the registry entry)
+         *  so one instance's successful construct can't hide a sibling's failure,
+         *  and a construct can never wipe an eval error `updateJs` recorded on
+         *  `r.logicError`. */
+        __publicField(this, "__ctorError", null);
+        __publicField(this, "logic");
+        this.__name = props.__name;
+        this.state = { __v: 0, __err: null };
+        this.__sub = () => {
+          if (this.state.__err) this.setState({ __err: null });
+          this.forceUpdate();
+        };
+        this.__makeLogic(registry.get(this.__name).Logic, null);
+        ensureFetched(this.__name);
+      }
+      /** Error-boundary hook: a render crash anywhere in this DC's subtree
+       *  (its own template, an x-import'd component, a child DC without its
+       *  own deeper boundary) lands here instead of unmounting the page. */
+      static getDerivedStateFromError(e) {
+        return { __err: e instanceof Error && e.message ? e.message : String(e) };
+      }
+      componentDidCatch(e, info) {
+        console.error(
+          "[dc-runtime] render error in <" + this.__name + ">:",
+          e,
+          info?.componentStack || ""
+        );
+      }
+      /** Instantiate the logic class (or the no-op base) and adopt `prevState`
+       *  over its initial state — used both at mount and on hot-swap. */
+      __makeLogic(Logic, prevState) {
+        const L = Logic || StreamableLogic;
+        try {
+          this.logic = new L(this.__userProps());
+          this.__failedLogic = null;
+          this.__failedUserProps = null;
+          this.__ctorError = null;
+        } catch (e) {
+          console.error(e);
+          this.__failedLogic = Logic;
+          this.__failedUserProps = this.__userProps();
+          this.__failedVer = registry.get(this.__name).ver;
+          this.__ctorError = this.__name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+          this.logic = new StreamableLogic(
+            this.__userProps()
+          );
+        }
+        this.logic.__host = this;
+        if (prevState)
+          this.logic.state = { ...this.logic.state || {}, ...prevState };
+      }
+      /** The props the author's logic + template see — internal __-prefixed
+       *  wiring stripped. */
+      __userProps() {
+        const { __name, __hintSize, __tplId, __hostStyle, ...rest } = this.props;
+        return rest;
+      }
+      __setLogicState(update, cb) {
+        const prev = this.logic.state;
+        const patch = typeof update === "function" ? update(prev) : update;
+        this.logic.state = { ...prev, ...patch };
+        this.setState((s) => ({ __v: s.__v + 1 }), cb);
+      }
+      /** Swap the logic instance when the registry's Logic class changed
+       *  (streaming completion, hot reload). State carries over; didMount
+       *  re-fires after the swap commits so refs exist. */
+      __reconcileLogic() {
+        const r = registry.get(this.__name);
+        const Next = r.Logic;
+        const Cur = this.logic.constructor;
+        if (Next === Cur || !Next && Cur === StreamableLogic || Next === this.__failedLogic && r.ver === this.__failedVer && shallowEqual(this.__userProps(), this.__failedUserProps)) {
+          return;
+        }
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        this.__makeLogic(Next, this.logic.state);
+        this.__needsDidMount = true;
+      }
+      componentDidMount() {
+        registry.get(this.__name).subs.add(this.__sub);
+        try {
+          this.logic.componentDidMount();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      componentDidUpdate(prevProps) {
+        this.logic.props = this.__userProps();
+        if (this.__needsDidMount) {
+          if (this.state.__err || !registry.get(this.__name).tpl) return;
+          this.__needsDidMount = false;
+          try {
+            this.logic.componentDidMount();
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          try {
+            this.logic.componentDidUpdate(prevProps);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      componentWillUnmount() {
+        registry.get(this.__name).subs.delete(this.__sub);
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      render() {
+        const r = registry.get(this.__name);
+        const cls = "sc-host" + (r.htmlStreaming ? " sc-streaming-html" : "") + (r.jsStreaming ? " sc-streaming-js" : "");
+        const hintStyle = r.htmlStreaming ? hintToMin(this.props.__hintSize) : void 0;
+        const hostStyle = this.props.__hostStyle || hintStyle ? { ...hintStyle || {}, ...this.props.__hostStyle || {} } : void 0;
+        const hostBase = {
+          className: cls,
+          style: hostStyle,
+          "data-sc-name": this.__name,
+          "data-dc-tpl": this.props.__tplId
+        };
+        const chain = Array.isArray(this.context) ? this.context : [];
+        if (chain.includes(this.__name)) {
+          const cycle = [
+            ...chain.slice(chain.indexOf(this.__name)),
+            this.__name
+          ].join(" \u2192 ");
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: "circular import: " + cycle
+            })
+          );
+        }
+        if (this.state.__err) {
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(
+              "div",
+              { className: "sc-logic-error", "data-omelette-chrome": "" },
+              this.__name + ": " + this.state.__err
+            ),
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: this.state.__err
+            })
+          );
+        }
+        this.__reconcileLogic();
+        if (!r.tpl) {
+          return h(
+            "div",
+            hostBase,
+            h(Placeholder, { name: this.__name, hintSize: this.props.__hintSize })
+          );
+        }
+        const userProps = this.__userProps();
+        this.logic.props = userProps;
+        let vals = userProps;
+        let renderErr = r.logicError || this.__ctorError;
+        try {
+          vals = { ...userProps, ...this.logic.renderVals() || {} };
+        } catch (e) {
+          console.error(e);
+          renderErr = this.__name + ".renderVals(): " + (e instanceof Error && e.message ? e.message : String(e));
+        }
+        this.__streamingNow = !!(r.htmlStreaming || r.jsStreaming);
+        this.__htmlStreamingNow = !!r.htmlStreaming;
+        return h(
+          "div",
+          { ...hostBase, className: cls + (renderErr ? " sc-has-error" : "") },
+          renderErr && h(
+            "div",
+            { className: "sc-logic-error", "data-omelette-chrome": "" },
+            renderErr
+          ),
+          h(
+            AncestorContext.Provider,
+            { value: [...chain, this.__name] },
+            r.tpl(vals, this)
+          )
+        );
+      }
+    }
+    __publicField(StreamableComponent, "contextType", AncestorContext);
+    const named = /* @__PURE__ */ new Map();
+    function getDC(name) {
+      const hit = named.get(name);
+      if (hit) return hit;
+      function Dispatcher(p) {
+        const [, setTick] = React.useState(0);
+        React.useEffect(() => {
+          const sub = () => setTick((n) => n + 1);
+          registry.get(name).subs.add(sub);
+          return () => {
+            registry.get(name).subs.delete(sub);
+          };
+        }, []);
+        ensureFetched(name);
+        return h(StreamableComponent, { ...p, __name: name });
+      }
+      Dispatcher.displayName = name;
+      named.set(name, Dispatcher);
+      return Dispatcher;
+    }
+    return {
+      getDC,
+      StreamableComponent
+    };
+  }
+
+  // src/bundled.ts
+  function bundledBlob(url) {
+    const blobs = window.__resourceBlobs;
+    const b = blobs ? blobs[url.split("#")[0]] : void 0;
+    return b instanceof Blob ? b : null;
+  }
+
+  // src/cdn.ts
+  var REACT_URL = "https://unpkg.com/react@18.3.1/umd/react.production.min.js";
+  var REACT_SRI = "sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z";
+  var REACT_DOM_URL = "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js";
+  var REACT_DOM_SRI = "sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1";
+  var BABEL_URL = "https://unpkg.com/@babel/standalone@7.29.0/babel.min.js";
+  var BABEL_SRI = "sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y";
+  function cdnScriptFor(url, sri) {
+    const res = window.__resources;
+    const v = res ? res[url] : void 0;
+    return typeof v === "string" && v ? { src: v } : { src: url, integrity: sri };
+  }
+
+  // src/external.ts
+  var isCustomElementName = (n) => !n.includes(".") && n.includes("-");
+  function isRenderableType(g) {
+    if (typeof g === "function") return !isElementClass(g);
+    return typeof g === "object" && g !== null && typeof g.$$typeof === "symbol";
+  }
+  function resolveDottedPath(root, name) {
+    let cur = root;
+    for (const seg of name.split(".")) {
+      if (cur == null) return void 0;
+      cur = cur[seg];
+    }
+    return cur;
+  }
+  var GLOBAL_POLL_INTERVAL_MS = 50;
+  var GLOBAL_POLL_TIMEOUT_MS = 3e4;
+  function createExternalModules(onResolved) {
+    const cache = /* @__PURE__ */ new Map();
+    let babelLoading = null;
+    const reportedMissing = /* @__PURE__ */ new Map();
+    const polling = /* @__PURE__ */ new Set();
+    function ensureBabel() {
+      if (window.Babel) return Promise.resolve();
+      if (babelLoading) return babelLoading;
+      const babel = cdnScriptFor(BABEL_URL, BABEL_SRI);
+      babelLoading = new Promise((res, rej) => {
+        const s = document.createElement("script");
+        s.src = babel.src;
+        if (babel.integrity) {
+          s.integrity = babel.integrity;
+          s.crossOrigin = "anonymous";
+        }
+        s.onload = () => res();
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      return babelLoading;
+    }
+    const pending = /* @__PURE__ */ new Map();
+    function load(kind, url, after) {
+      const existing = pending.get(url);
+      if (existing) return existing;
+      cache.set(url, null);
+      console.info("[dc-runtime] x-import: loading", url, "(" + kind + ")");
+      const ready = Promise.all([
+        kind === "jsx" ? ensureBabel() : Promise.resolve(),
+        after ?? Promise.resolve()
+      ]);
+      const p = ready.then(() => {
+        const pre = bundledBlob(url);
+        if (pre) return pre.text();
+        return fetch(url).then((r) => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.text();
+        });
+      }).then((src) => {
+        const code = kind === "jsx" ? window.Babel.transform(src, {
+          filename: url,
+          presets: ["react", "typescript"]
+        }).code : src;
+        const module = { exports: {} };
+        const before = new Set(Object.keys(window));
+        //! nosemgrep: eval-and-function-constructor
+        new Function("React", "module", "exports", "require", code)(
+          getReact(),
+          module,
+          module.exports,
+          () => ({})
+        );
+        const globals = {};
+        for (const k of Object.keys(window)) {
+          if (!before.has(k) && typeof window[k] === "function") {
+            globals[k] = window[k];
+          }
+        }
+        cache.set(url, { mod: module.exports, globals });
+        console.info(
+          "[dc-runtime] x-import: loaded",
+          url,
+          "\u2014 exports:",
+          Object.keys(module.exports),
+          "window globals:",
+          Object.keys(globals)
+        );
+        onResolved();
+      }).catch((e) => {
+        cache.set(url, {
+          mod: {},
+          globals: {},
+          error: "failed to load: " + (e instanceof Error && e.message ? e.message : String(e))
+        });
+        console.error(
+          "[dc-runtime] x-import: FAILED to load",
+          url,
+          "(" + kind + ")",
+          e
+        );
+        onResolved();
+      });
+      pending.set(url, p);
+      return p;
+    }
+    function resolve2(url, name) {
+      const entry = cache.get(url);
+      if (!entry) return null;
+      const { mod, globals } = entry;
+      const C = mod && mod[name] || globals && globals[name] || typeof window !== "undefined" && window[name] || mod && mod.default;
+      if (typeof C === "function") return C;
+      const key = url + "\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(
+          key,
+          entry.error || 'no export named "' + name + '" (has: ' + Object.keys(mod).join(", ") + ")"
+        );
+        console.error(
+          "[dc-runtime] x-import: module",
+          url,
+          "loaded but has no component named",
+          JSON.stringify(name),
+          "\u2014 available exports:",
+          Object.keys(mod),
+          "window globals:",
+          Object.keys(globals),
+          ". The module must `module.exports = {" + name + "}` or set `window." + name + "`."
+        );
+      }
+      return null;
+    }
+    function waitForGlobal(name) {
+      if (polling.has(name)) return;
+      polling.add(name);
+      const started = Date.now();
+      const isCE = isCustomElementName(name);
+      const tick = () => {
+        const found = isCE ? customElements.get(name) : isRenderableType(resolveDottedPath(window, name));
+        if (found) {
+          polling.delete(name);
+          onResolved();
+          return;
+        }
+        if (Date.now() - started >= GLOBAL_POLL_TIMEOUT_MS) {
+          console.warn(
+            "[dc-runtime] x-import: global",
+            JSON.stringify(name),
+            "never appeared on window after " + GLOBAL_POLL_TIMEOUT_MS + "ms"
+          );
+          return;
+        }
+        setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+      };
+      setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+    }
+    function resolveGlobal(url, name) {
+      const isCE = isCustomElementName(name);
+      if (!url) {
+        if (isCE) {
+          if (customElements.get(name)) return name;
+          waitForGlobal(name);
+          return null;
+        }
+        const g2 = resolveDottedPath(window, name);
+        if (isRenderableType(g2)) return g2;
+        waitForGlobal(name);
+        return null;
+      }
+      const entry = cache.get(url);
+      if (!entry) return null;
+      if (isCE && customElements.get(name)) return name;
+      const g = entry.globals[name] ?? resolveDottedPath(window, name);
+      if (isRenderableType(g)) return g;
+      if (name.includes(".")) return null;
+      const key = url + "\0global\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(key, null);
+        if (isCE && !customElements.get(name)) {
+          console.warn(
+            "[dc-runtime] x-import:",
+            url,
+            "loaded but no custom element",
+            JSON.stringify(name),
+            "is registered and window." + name + " is not a function \u2014 rendering <" + name + "> as an unknown element."
+          );
+        }
+      }
+      return name;
+    }
+    function getError(url, name) {
+      const entry = cache.get(url);
+      if (entry?.error) return entry.error;
+      return reportedMissing.get(url + "\0" + name) || null;
+    }
+    return { load, resolve: resolve2, resolveGlobal, getError };
+  }
+  function isElementClass(g) {
+    try {
+      return typeof g === "function" && typeof HTMLElement !== "undefined" && g.prototype instanceof HTMLElement;
+    } catch {
+      return false;
+    }
+  }
+
+  // src/atomics.ts
+  var ATOMIC_CSS = (
+    // layout
+    ".fx{display:flex}.col{display:flex;flex-direction:column}.grid{display:grid}.ac{align-items:center}.jc{justify-content:center}.jb{justify-content:space-between}.f1{flex:1}.noshrink{flex-shrink:0}.wrap{flex-wrap:wrap}.fw5{font-weight:500}.fw6{font-weight:600}.fw7{font-weight:700}.fw8{font-weight:800}.fs11{font-size:11px}.fs12{font-size:12px}.fs13{font-size:13px}.fs14{font-size:14px}.fs15{font-size:15px}.fs16{font-size:16px}.fs20{font-size:20px}.fs22{font-size:22px}.upper{text-transform:uppercase}.tc{text-align:center}.nowrap{white-space:nowrap}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.gap24{gap:24px}.m0{margin:0}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.posrel{position:relative}.posabs{position:absolute}.round{border-radius:50%}.ohide{overflow:hidden}.bbox{box-sizing:border-box}.pointer{cursor:pointer}.w100{width:100%}.b0{border:none}"
+  );
+
+  // src/helmet.ts
+  var DESIGN_DOC_MODE_RE = /<meta\b[^>]*\bname\s*=\s*["']design_doc_mode["'][^>]*\b(?:content|value)\s*=\s*["'](\w+)["']/i;
+  var CANVAS_BG_LIGHT = "#f0eee6";
+  var CANVAS_BG_DARK = "#2e2c26";
+  function createHelmetManager(doc, isStreaming) {
+    const mounted = /* @__PURE__ */ new Set();
+    const live = /* @__PURE__ */ new Map();
+    let designDocMode = null;
+    let canvasStyleEl = null;
+    let appTheme = "light";
+    try {
+      const ds = doc.documentElement.dataset.theme;
+      appTheme = ds === "dark" || ds === "light" ? ds : new URLSearchParams(doc.defaultView?.location.search ?? "").get(
+        "theme"
+      ) === "dark" ? "dark" : "light";
+    } catch {
+    }
+    function applyCanvasBg() {
+      if (!canvasStyleEl) return;
+      const bg = appTheme === "dark" ? CANVAS_BG_DARK : CANVAS_BG_LIGHT;
+      canvasStyleEl.textContent = `html,body{background:${bg}}#dc-root>.sc-host{position:relative}`;
+    }
+    function postDesignMode(mode) {
+      if (window.parent === window) return;
+      try {
+        window.parent.postMessage({ type: "__dc_design_mode", mode }, "*");
+      } catch {
+      }
+    }
+    function setDesignDocMode(mode) {
+      if (mode === designDocMode) return;
+      designDocMode = mode;
+      postDesignMode(mode);
+      if (mode === "canvas") {
+        doc.documentElement.setAttribute("data-dc-canvas", "");
+        canvasStyleEl = doc.createElement("style");
+        canvasStyleEl.setAttribute("data-dc-canvas", "");
+        applyCanvasBg();
+        doc.head.appendChild(canvasStyleEl);
+      } else {
+        doc.documentElement.removeAttribute("data-dc-canvas");
+        canvasStyleEl?.remove();
+        canvasStyleEl = null;
+      }
+    }
+    window.addEventListener("message", (e) => {
+      const type = e.data && e.data.type;
+      if (type === "__dc_theme") {
+        const t = e.data.theme;
+        if (t === "light" || t === "dark") {
+          appTheme = t;
+          applyCanvasBg();
+        }
+        return;
+      }
+      if (!designDocMode || type !== "__dc_probe") return;
+      postDesignMode(designDocMode);
+    });
+    function compile(node) {
+      const raw = [...node.children];
+      const helmetClosed = node.nextSibling != null || node.parentNode?.nextSibling != null;
+      if (node.hasAttribute("data-dc-atomics") && !mounted.has("__dc-atomics")) {
+        mounted.add("__dc-atomics");
+        const el = doc.createElement("style");
+        el.id = "__dc-atomics";
+        el.textContent = ATOMIC_CSS;
+        doc.head.appendChild(el);
+      }
+      return (_vals, ctx) => {
+        const name = ctx && ctx.__name || "";
+        const streaming = !!(name && isStreaming(name));
+        for (let i = 0; i < raw.length; i++) {
+          const child = raw[i];
+          const tag = child.tagName;
+          const mayBePartial = streaming && !helmetClosed && i === raw.length - 1;
+          if (tag === "SCRIPT") {
+            if (mayBePartial) continue;
+            const key = "SCRIPT|" + (child.getAttribute("src") || child.textContent || "");
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            const el = doc.createElement("script");
+            for (const { name: an, value } of [...child.attributes])
+              el.setAttribute(an, value);
+            if (child.textContent) el.textContent = child.textContent;
+            doc.head.appendChild(el);
+          } else if (tag === "LINK" || tag === "META") {
+            if (mayBePartial) continue;
+            const key = tag + "|" + (child.getAttribute("href") || child.getAttribute("src") || child.outerHTML);
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            if (tag === "LINK") {
+              const rel = (child.getAttribute("rel") || "").toLowerCase().split(/\s+/);
+              const href = (child.getAttribute("href") || "").trim();
+              const res = window.__resources;
+              const pre = res && rel.includes("stylesheet") && !rel.includes("alternate") ? res[href] : void 0;
+              const blob = typeof pre === "string" && pre ? bundledBlob(pre) : null;
+              if (blob) {
+                const el = doc.createElement("style");
+                if (child.hasAttribute("disabled")) {
+                  el.setAttribute("media", "not all");
+                } else if (child.getAttribute("media")) {
+                  el.setAttribute("media", child.getAttribute("media"));
+                }
+                if (child.getAttribute("title"))
+                  el.setAttribute("title", child.getAttribute("title"));
+                void blob.text().then((css) => {
+                  el.textContent = css;
+                });
+                doc.head.appendChild(el);
+                continue;
+              }
+            }
+            doc.head.appendChild(child.cloneNode(true));
+          } else {
+            const key = name + "|" + i;
+            let el = live.get(key);
+            if (!el || el.tagName !== tag) {
+              if (el) el.remove();
+              el = doc.createElement(tag.toLowerCase());
+              live.set(key, el);
+              doc.head.appendChild(el);
+            }
+            for (const { name: an, value } of [...child.attributes]) {
+              if (el.getAttribute(an) !== value) el.setAttribute(an, value);
+            }
+            if (el.textContent !== child.textContent)
+              el.textContent = child.textContent;
+          }
+        }
+        return null;
+      };
+    }
+    return { compile, setDesignDocMode };
+  }
+
+  // src/pseudo.ts
+  function scanUnquotedUrl(css, i) {
+    if (css[i] !== "u" && css[i] !== "U" || css.slice(i, i + 4).toLowerCase() !== "url(" || /[a-z0-9_-]/i.test(css[i - 1] ?? "")) {
+      return -1;
+    }
+    let j = i + 4;
+    while (j < css.length && /\s/.test(css[j])) j++;
+    if (css[j] === '"' || css[j] === "'") return -1;
+    while (j < css.length && css[j] !== ")") {
+      if (css[j] === "\\") j++;
+      j++;
+    }
+    return j < css.length ? j + 1 : css.length;
+  }
+  function stripComments(css) {
+    let out = "";
+    let quote = "";
+    for (let i = 0; i < css.length; i++) {
+      const c = css[i];
+      if (quote) {
+        if (c === "\\") {
+          out += c + (css[i + 1] ?? "");
+          i++;
+          continue;
+        }
+        if (c === quote) quote = "";
+        out += c;
+      } else if (c === "'" || c === '"') {
+        quote = c;
+        out += c;
+      } else if (c === "/" && css[i + 1] === "*") {
+        const end = css.indexOf("*/", i + 2);
+        i = end === -1 ? css.length : end + 1;
+        out += " ";
+      } else {
+        const end = scanUnquotedUrl(css, i);
+        if (end === -1) out += c;
+        else {
+          out += css.slice(i, end);
+          i = end - 1;
+        }
+      }
+    }
+    return out;
+  }
+  function importantify(css) {
+    css = stripComments(css);
+    const decls = [];
+    let start = 0;
+    let depth = 0;
+    let quote = "";
+    for (let i = 0; i < css.length; i++) {
+      const c = css[i];
+      if (quote) {
+        if (c === "\\") i++;
+        else if (c === quote) quote = "";
+      } else if (c === "'" || c === '"') quote = c;
+      else if (c === "(") depth++;
+      else if (c === ")") depth = Math.max(0, depth - 1);
+      else if (c === ";" && depth === 0) {
+        decls.push(css.slice(start, i));
+        start = i + 1;
+      } else {
+        const end = scanUnquotedUrl(css, i);
+        if (end !== -1) i = end - 1;
+      }
+    }
+    decls.push(css.slice(start));
+    return decls.map((d) => d.trim()).filter(Boolean).map((d) => /!\s*important$/i.test(d) ? d : d + " !important").join(";");
+  }
+  function createPseudoSheet(doc) {
+    let el = null;
+    const cache = /* @__PURE__ */ new Map();
+    let n = 0;
+    return (pseudo, css) => {
+      const k = pseudo + "|" + css;
+      const hit = cache.get(k);
+      if (hit) return hit;
+      if (!el) {
+        el = doc.createElement("style");
+        doc.head.appendChild(el);
+      }
+      const cls = "scp" + (n++).toString(36);
+      const isPseudoElement = pseudo === "before" || pseudo === "after";
+      const sel = isPseudoElement ? "." + cls + "::" + pseudo : "." + cls + ":" + pseudo;
+      el.sheet.insertRule(
+        sel + "{" + (isPseudoElement ? css : importantify(css)) + "}",
+        el.sheet.cssRules.length
+      );
+      cache.set(k, cls);
+      return cls;
+    };
+  }
+
+  // src/registry.ts
+  function createRegistry() {
+    const entries = /* @__PURE__ */ Object.create(null);
+    function get(name) {
+      return entries[name] || (entries[name] = {
+        html: "",
+        tpl: null,
+        Logic: null,
+        jsStreaming: false,
+        htmlStreaming: false,
+        ver: 0,
+        subs: /* @__PURE__ */ new Set(),
+        fetched: false
+      });
+    }
+    function bump(name) {
+      const r = get(name);
+      r.ver++;
+      for (const fn of r.subs) fn();
+    }
+    return {
+      entries,
+      get,
+      bump,
+      bumpAll() {
+        for (const n in entries) bump(n);
+      }
+    };
+  }
+
+  // src/runtime.ts
+  var COMPONENT_DIR = ".";
+  function createRuntime(doc = document) {
+    const registry = createRegistry();
+    const pseudoClass = createPseudoSheet(doc);
+    const helmet = createHelmetManager(
+      doc,
+      (name) => registry.get(name).htmlStreaming
+    );
+    const external = createExternalModules(() => registry.bumpAll());
+    const factory = createComponentFactory(registry, ensureFetched);
+    const host = {
+      component: (name) => factory.getDC(name),
+      placeholder: (props) => h(Placeholder, props),
+      helmet: (node) => helmet.compile(node),
+      loadExternal: (kind, url, after) => external.load(kind, url, after),
+      resolveExternal: (url, name) => external.resolve(url, name),
+      resolveExternalGlobal: (url, name) => external.resolveGlobal(url, name),
+      resolveExternalError: (url, name) => external.getError(url, name),
+      pseudoClass
+    };
+    function ensureFetched(name) {
+      const r = registry.get(name);
+      if (r.fetched) return;
+      r.fetched = true;
+      const url = COMPONENT_DIR + "/" + encodeURIComponent(name) + ".dc.html";
+      const res = window.__resources;
+      const pre = res ? res[url] : void 0;
+      const target = typeof pre === "string" && pre ? pre : url;
+      const blob = bundledBlob(target);
+      (blob ? blob.text() : fetch(target).then((res2) => {
+        if (!res2.ok) {
+          console.error(
+            '[dc-runtime] sibling fetch for "' + name + '" failed:',
+            url,
+            "returned",
+            res2.status,
+            "\u2014 the reference renders as an empty placeholder."
+          );
+          return "";
+        }
+        return res2.text();
+      })).then((t) => {
+        if (!t) return;
+        const parsed = parseDcText(t);
+        if (!parsed) {
+          console.error(
+            '[dc-runtime] sibling fetch for "' + name + '":',
+            url,
+            "has no <x-dc> block \u2014 not a Design Component."
+          );
+          return;
+        }
+        if (parsed.props) r.propsMeta = parsed.props;
+        if (parsed.preview) r.preview = parsed.preview;
+        if (parsed.template && !r.html) updateHtml(name, parsed.template);
+        if (parsed.js && !r.Logic) updateJs(name, parsed.js);
+      }).catch(
+        (e) => console.error(
+          '[dc-runtime] sibling fetch for "' + name + '" threw:',
+          url,
+          e
+        )
+      );
+    }
+    let rootName = null;
+    function updateHtml(name, html) {
+      const r = registry.get(name);
+      r.html = html;
+      if (name === rootName) {
+        const mode = DESIGN_DOC_MODE_RE.exec(html)?.[1] ?? null;
+        if (mode || !r.htmlStreaming) helmet.setDesignDocMode(mode);
+      }
+      try {
+        r.tpl = compileTemplate(html, host);
+      } catch (e) {
+        console.error("[dc-runtime] template compile FAILED for", name, e);
+      }
+      registry.bump(name);
+    }
+    function updateJs(name, src) {
+      const r = registry.get(name);
+      const seq = r.jsSeq = (r.jsSeq || 0) + 1;
+      try {
+        const Cls = evalDcLogic(src);
+        if (r.jsSeq !== seq) return;
+        if (typeof Cls !== "function") {
+          r.logicError = name + ".dc.html: <script data-dc-script> must define `class Component extends DCLogic`";
+        } else {
+          r.logicError = null;
+          r.Logic = Cls;
+        }
+      } catch (e) {
+        if (r.jsSeq !== seq) return;
+        console.error(
+          "[dc-runtime] logic class eval FAILED for",
+          name,
+          "\u2014 the template renders with props only.",
+          e
+        );
+        r.logicError = name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+      }
+      registry.bump(name);
+    }
+    function setStreaming(name, kind, on) {
+      const r = registry.get(name);
+      if (kind === "html") r.htmlStreaming = !!on;
+      else r.jsStreaming = !!on;
+      let any = false;
+      for (const n in registry.entries) {
+        const e = registry.entries[n];
+        if (e && (e.htmlStreaming || e.jsStreaming)) {
+          any = true;
+          break;
+        }
+      }
+      doc.documentElement.classList.toggle("sc-dc-streaming", any);
+      registry.bump(name);
+    }
+    function dcUpdate(name, kind, content, streaming) {
+      if (streaming) registry.get(name).fetched = true;
+      if (kind === "html") {
+        setStreaming(name, "html", !!streaming);
+        updateHtml(name, content);
+      } else if (kind === "js") {
+        setStreaming(name, "js", !!streaming);
+        if (!streaming) updateJs(name, content);
+      } else if (kind === "props") {
+        const { props, preview } = parseDataProps(content);
+        const r = registry.get(name);
+        r.propsMeta = props ?? void 0;
+        r.preview = preview;
+        registry.bump(name);
+      }
+    }
+    function setProps(name, overrides) {
+      registry.get(name).propOverrides = overrides && typeof overrides === "object" ? { ...overrides } : null;
+      registry.bump(name);
+    }
+    function adoptParsed(name, parsed) {
+      if (!parsed) return;
+      const r = registry.get(name);
+      if (parsed.props) r.propsMeta = parsed.props;
+      if (parsed.preview) r.preview = parsed.preview;
+      if (parsed.template) updateHtml(name, parsed.template);
+      if (parsed.js) updateJs(name, parsed.js);
+    }
+    return {
+      registry,
+      getDC: factory.getDC,
+      updateHtml,
+      updateJs,
+      dcUpdate,
+      setProps,
+      adoptParsed,
+      setRootName: (name) => {
+        rootName = name;
+      },
+      markFetched: (name) => {
+        registry.get(name).fetched = true;
+      },
+      annotatedTemplate: (name) => {
+        const r = registry.get(name);
+        return r.tpl && r.tpl.__annotated || null;
+      },
+      templateSource: (name) => registry.get(name).html || null,
+      StreamableLogic
+    };
+  }
+
+  // src/stream-state.ts
+  function createStreamTracker(staleMs = 6e4, now = Date.now) {
+    const since = /* @__PURE__ */ new Map();
+    const liveOne = (n) => {
+      const t = since.get(n);
+      if (t === void 0) return false;
+      if (now() - t > staleMs) {
+        since.delete(n);
+        return false;
+      }
+      return true;
     };
     return {
-      navStyle, navText, logoBrownOpacity, ctaStyle,
-      aduMenuStyle,
-      aduEnter: () => { clearTimeout(this._aduT); this.setState({ aduOpen: true }); },
-      aduLeave: () => { clearTimeout(this._aduT); this._aduT = setTimeout(() => this.setState({ aduOpen: false }), 160); },
-      contactOpen: this.state.contactOpen,
-      contactStep,
-      isMenu,
-      isFeasibility,
-      isMessage,
-      isDone,
-      showBack,
-      feasSubmitting,
-      msgSubmitting,
-      feasError,
-      msgError,
-      feasSubmitLabel,
-      msgSubmitLabel,
-      openContact,
-      closeContact,
-      closeContactBackdrop,
-      stopProp,
-      goFeasibility,
-      goMessage,
-      backToMenu,
-      submitFeasibility,
-      submitMessage,
-      feasOwnOptions,
-      feasPropTypeOptions,
-      feasUnitOptions,
-      feasTimelineOptions,
-      msgProductOptions,
-      inputStyle,
-      inputStyleFull,
-      textareaStyle,
-      submitStyle,
-      backBtnStyle
+      push(name, streaming, viewportKey) {
+        if (viewportKey === "dc-model") return;
+        if (streaming) since.set(name, now());
+        else since.delete(name);
+      },
+      live(name) {
+        if (name !== void 0) return liveOne(name);
+        for (const n of [...since.keys()]) if (liveOne(n)) return true;
+        return false;
+      }
     };
   }
-}
-</script>
-</body>
-</html>
+
+  // src/index.ts
+  function hideRawTemplate() {
+    const s = document.createElement("style");
+    s.textContent = "x-dc{display:none!important}";
+    document.head.appendChild(s);
+  }
+  function loadScript(src, integrity) {
+    return new Promise((resolve2, reject) => {
+      //! nosemgrep: create-script-element
+      const s = document.createElement("script");
+      s.src = src;
+      if (integrity) {
+        s.integrity = integrity;
+        s.crossOrigin = "anonymous";
+      }
+      s.async = false;
+      s.onload = () => resolve2();
+      s.onerror = () => reject(new Error(`failed to load ${src}`));
+      document.head.appendChild(s);
+    });
+  }
+  function loadReactUmd() {
+    const w = window;
+    if (w.React && w.ReactDOM) return Promise.resolve();
+    const react = cdnScriptFor(REACT_URL, REACT_SRI);
+    const reactDom = cdnScriptFor(REACT_DOM_URL, REACT_DOM_SRI);
+    return Promise.all([
+      loadScript(react.src, react.integrity),
+      loadScript(reactDom.src, reactDom.integrity)
+    ]).then(() => void 0);
+  }
+  function init() {
+    const runtime = createRuntime(document);
+    let rootName = "Root";
+    const baseCss = document.createElement("style");
+    baseCss.textContent = BASE_CSS;
+    document.head.prepend(baseCss);
+    const notifyHost = () => {
+      if (window.parent === window) return;
+      const r = runtime.registry.entries[rootName];
+      try {
+        window.parent.postMessage(
+          {
+            type: "__dc_booted",
+            rootName,
+            propsMeta: r && r.propsMeta || null,
+            preview: r && r.preview || null
+          },
+          "*"
+        );
+      } catch {
+      }
+    };
+    const streams = createStreamTracker();
+    const api = {
+      __dcUpdate: (name, kind, content, streaming, viewportKey) => {
+        streams.push(name, streaming, viewportKey);
+        runtime.dcUpdate(name, kind, content, streaming);
+        if (name === rootName && !streaming && kind === "props") notifyHost();
+      },
+      __dcStreaming: (name) => streams.live(name),
+      __dcSetProps: (name, overrides) => runtime.setProps(name, overrides),
+      /** Name of the component currently mounted as the page root — DC tools
+       *  push their template-stream here when targeting "the open page". */
+      __dcRootName: () => rootName,
+      /** Editor bridge — the encoded, `data-dc-tpl`-annotated template source.
+       *  The host editor parses this into its own template DOM so it can map a
+       *  rendered node (carrying the same `data-dc-tpl`) back to the source
+       *  node that emitted it. Returns the encoded form (`sc-camel-*` attrs,
+       *  `<sc-raw-*>`/`<sc-helmet>` tags); the editor decodes on serialize. */
+      __dcAnnotatedTemplate: (name) => runtime.annotatedTemplate(name),
+      /** Editor bridge — the *original* (decoded) template source. */
+      __dcTemplateSource: (name) => runtime.templateSource(name),
+      __dcBoot: () => {
+        rootName = boot(runtime, document) ?? rootName;
+        notifyHost();
+      },
+      __dcRegistry: runtime.registry.entries,
+      getDC: (name) => runtime.getDC(name),
+      // `DCLogic` is the documented base class name; `StreamableLogic` is the
+      // implementation alias kept for any project that already references it.
+      DCLogic: runtime.StreamableLogic,
+      StreamableLogic: runtime.StreamableLogic
+    };
+    Object.assign(window, api);
+    window.__dcContentKeyed = true;
+    if (document.readyState !== "loading") api.__dcBoot();
+    else document.addEventListener("DOMContentLoaded", () => api.__dcBoot());
+  }
+  hideRawTemplate();
+  loadReactUmd().then(init).catch((err) => {
+    console.error("[dc] failed to load React or boot:", err);
+    throw err;
+  });
+})();
