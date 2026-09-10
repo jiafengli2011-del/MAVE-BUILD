@@ -249,7 +249,33 @@ async function prerender(browser, route) {
     const headClone = document.head.cloneNode(true);
     headClone.querySelectorAll('script').forEach((s) => s.remove());
     headClone.querySelectorAll('title').forEach((s) => s.remove());
-    return { head: headClone.innerHTML, body: root.innerHTML };
+
+    // Claude Design's image-slot renders its real <img> inside Shadow DOM.
+    // innerHTML cannot serialize a shadow root, which previously left a
+    // correctly-sized but empty hero area in the static snapshot. Replace
+    // image components only in the clone with ordinary images; the live
+    // runtime tree below remains untouched and keeps all interactions.
+    const bodyClone = root.cloneNode(true);
+    bodyClone.querySelectorAll('image-slot, x-import').forEach((slot) => {
+      const src = slot.getAttribute('src');
+      if (!src) return;
+      const img = document.createElement('img');
+      img.setAttribute('src', src);
+      img.setAttribute('alt', slot.getAttribute('placeholder') || '');
+      const className = slot.getAttribute('class');
+      const style = slot.getAttribute('style');
+      const fit = slot.getAttribute('fit') || 'cover';
+      const radius = slot.getAttribute('radius');
+      if (className) img.setAttribute('class', className);
+      img.setAttribute(
+        'style',
+        (style ? style.replace(/;?\\s*$/, ';') : '') +
+          'display:block;object-fit:' + fit + ';' +
+          (radius !== null ? 'border-radius:' + radius + 'px;' : '')
+      );
+      slot.replaceWith(img);
+    });
+    return { head: headClone.innerHTML, body: bodyClone.innerHTML };
   })()`);
   await page.close();
 
