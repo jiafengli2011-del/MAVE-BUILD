@@ -135,7 +135,16 @@ async function validateRuntimeAssets() {
 /** Pull the <x-dc> template + logic script out of the source, verbatim. */
 function extractRuntimeBlock(src) {
   const start = src.indexOf('<x-dc>');
-  const scriptOpen = src.indexOf('<script type="text/x-dc" data-dc-script>', start);
+  // Claude Design exports boolean HTML attributes in both forms:
+  // `data-dc-script` and `data-dc-script=""`. It may also append attributes
+  // such as `data-props`, so locate the script semantically instead of by an
+  // exact opening-tag string.
+  const scriptMatch = start === -1
+    ? null
+    : src.slice(start).match(
+        /<script\b(?=[^>]*\btype=["']text\/x-dc["'])(?=[^>]*\bdata-dc-script(?:=["'][^"']*["'])?)[^>]*>/i
+      );
+  const scriptOpen = scriptMatch ? start + scriptMatch.index : -1;
   const scriptClose = src.indexOf('</script>', scriptOpen);
   if (start === -1 || scriptOpen === -1 || scriptClose === -1) {
     throw new Error('could not locate <x-dc> template and data-dc-script block');
