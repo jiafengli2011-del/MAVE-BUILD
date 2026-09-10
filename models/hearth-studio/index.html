@@ -89,7 +89,7 @@
       .mv-floorplan-img-wrap{aspect-ratio:4/3!important}
     }
   </style>
-<script src="https://cdn.jsdelivr.net/gh/jiafengli2011-del/MAVE-BUILD@main/support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <div id="__prerender"><div class="sc-host" data-sc-name="hearth-studio"><div data-dc-tpl="5" style="background: rgb(243, 239, 230); color: rgb(32, 37, 31); font-family: &quot;Schibsted Grotesk&quot;, system-ui, sans-serif;">
@@ -1037,9 +1037,21 @@ class Component extends DCLogic {
 <script>
 (function () {
   function __findRoot() {
-  var host = document.querySelector('#dc-root .sc-host, .sc-host');
-  if (host) return host.parentElement && host.parentElement.id === 'dc-root' ? host.parentElement : host;
-  return document.getElementById('dc-root') || document.querySelector('[data-dc-tpl]');
+  var snapshot = document.getElementById('__prerender');
+  function outsideSnapshot(node) {
+    return !!node && (!snapshot || !snapshot.contains(node));
+  }
+  var dcRoot = document.getElementById('dc-root');
+  if (outsideSnapshot(dcRoot)) return dcRoot;
+  var hosts = document.querySelectorAll('.sc-host');
+  for (var i = 0; i < hosts.length; i++) {
+    if (outsideSnapshot(hosts[i])) return hosts[i];
+  }
+  var annotated = document.querySelectorAll('[data-dc-tpl]');
+  for (var j = 0; j < annotated.length; j++) {
+    if (outsideSnapshot(annotated[j])) return annotated[j];
+  }
+  return null;
 }
   var snapshot = document.getElementById('__prerender');
   if (!snapshot) return;
