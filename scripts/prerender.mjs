@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { extname, join, resolve } from 'node:path';
 import puppeteer from 'puppeteer';
+import { ROUTES } from './routes.mjs';
 
 const ROOT = resolve(process.cwd());
 const PORT = 4321;
@@ -16,22 +17,6 @@ const LOCAL_URL_ASSETS = new Map([
 const DEBUG_DIR = 'prerender-debug';
 const OFFLINE = process.env.PRERENDER_OFFLINE === '1';
 
-/**
- * One entry per route. `source` is the Design Component source page;
- * `out` is the static file Vercel serves. `head` is the SEO metadata that
- * previously lived only in the bundled export's <head> — it is NOT present
- * in the source page, so it must be declared here or it is lost.
- */
-const ROUTES = [
-  {
-    source: 'src/models/hearth-studio.dc.html',
-    out: 'models/hearth-studio/index.html',
-    canonical: 'https://mavebuild.com/models/hearth-studio',
-    head: `<title>Hearth Studio — 375 sq ft ADU Modular Home | MAVE BUILD</title>
-<meta name="description" content="A 375 sq ft studio ADU with kitchen, bath, living and sleeping in one footprint, starting at $65,000. Rental-ready, sleeps 1–2." />`,
-  },
-];
-
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -44,7 +29,65 @@ const MIME = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
 };
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function structuredData(route) {
+  const publisher = { '@type': 'Organization', name: 'MAVE', url: 'https://mavebuild.com/' };
+  if (route.product) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: route.product.name,
+      description: route.description,
+      url: route.canonical,
+      brand: { '@type': 'Brand', name: 'MAVE' },
+      category: 'Modular home and accessory dwelling unit',
+      floorSize: {
+        '@type': 'QuantitativeValue',
+        value: route.product.floorSize,
+        unitCode: 'FTK',
+        unitText: 'square feet',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: route.canonical,
+        priceCurrency: 'USD',
+        price: route.product.price,
+      },
+    };
+  }
+  return {
+    '@context': 'https://schema.org',
+    '@type': route.schemaType || 'WebPage',
+    name: route.title,
+    headline: route.schemaType === 'Article' ? route.title : undefined,
+    description: route.description,
+    url: route.canonical,
+    publisher,
+  };
+}
+
+function routeHead(route) {
+  const schema = JSON.stringify(structuredData(route)).replaceAll('<', '\\u003c');
+  return `<title>${escapeHtml(route.title)}</title>
+<meta name="description" content="${escapeHtml(route.description)}">
+<link rel="canonical" href="${escapeHtml(route.canonical)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${escapeHtml(route.title)}">
+<meta property="og:description" content="${escapeHtml(route.description)}">
+<meta property="og:url" content="${escapeHtml(route.canonical)}">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">${schema}</script>`;
+}
 
 function serve() {
   return new Promise((ready) => {
@@ -247,8 +290,9 @@ async function prerender(browser, route) {
     // Drop the runtime's own script tags from the captured head; they are
     // re-added deterministically below.
     const headClone = document.head.cloneNode(true);
-    headClone.querySelectorAll('script').forEach((s) => s.remove());
+    headClone.querySelectorAll('script:not([type="application/ld+json"])').forEach((s) => s.remove());
     headClone.querySelectorAll('title').forEach((s) => s.remove());
+    headClone.querySelectorAll('meta[name="description"], link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"]').forEach((s) => s.remove());
 
     // Claude Design's image-slot renders its real <img> inside Shadow DOM.
     // innerHTML cannot serialize a shadow root, which previously left a
@@ -292,13 +336,12 @@ async function prerender(browser, route) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-${route.head}
-<link rel="canonical" href="${route.canonical}" />
+${routeHead(route)}
 ${head.trim()}
 <script src="${supportSrc}"></script>
 </head>
 <body>
-<div id="__prerender">${body}</div>
+<!-- PRERENDER:START --><div id="__prerender">${body}</div><!-- PRERENDER:END -->
 ${extractRuntimeBlock(src)}
 ${HYDRATION_CLEANUP}
 </body>
@@ -313,7 +356,12 @@ ${HYDRATION_CLEANUP}
   console.log(
     `  ${route.out} — ${(html.length / 1024).toFixed(0)} KB, ${visibleText.length} chars of text in the initial response`
   );
-  if (visibleText.length < 1000) throw new Error(`${route.out}: suspiciously little prerendered text`);
+  if (visibleText.length < route.minText) {
+    throw new Error(`${route.out}: suspiciously little prerendered text (${visibleText.length} < ${route.minText})`);
+  }
+  if (!html.includes('id="__prerender"') || !html.includes(route.title) || !html.includes(route.canonical)) {
+    throw new Error(`${route.out}: generated HTML is missing required crawlable metadata or snapshot`);
+  }
   return html;
 }
 
