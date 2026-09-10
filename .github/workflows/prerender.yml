@@ -6,11 +6,14 @@ name: Prerender static pages
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - TEST
     paths:
       - 'src/**'
       - 'scripts/prerender.mjs'
+      - 'scripts/extract-bundles.mjs'
+      - 'scripts/routes.mjs'
+      - 'scripts/audit-generated.mjs'
       - 'support.js'
       - 'image-slot.js'
       - 'vendor/**'
@@ -27,13 +30,14 @@ concurrency:
 
 jobs:
   prerender:
+    if: github.ref == 'refs/heads/TEST'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       # The libs the Vercel build sandbox could not provide.
       - name: Install Chrome system libraries
@@ -47,10 +51,13 @@ jobs:
           sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Prerender
         run: npm run prerender
+
+      - name: Audit crawlable output
+        run: npm run audit
 
       # Screenshot + DOM dump written by the script when a route times out.
       - name: Upload failure diagnostics
@@ -66,7 +73,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add models resources index.html 2>/dev/null || true
+          git add generated-assets models resources index.html 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no changes to commit"
           else
