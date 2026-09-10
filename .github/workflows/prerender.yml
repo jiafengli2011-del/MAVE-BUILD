@@ -13,6 +13,7 @@ on:
       - 'scripts/prerender.mjs'
       - 'support.js'
       - 'image-slot.js'
+      - 'vendor/**'
       - 'package.json'
       - '.github/workflows/prerender.yml'
   workflow_dispatch:
