@@ -71,16 +71,34 @@ function extractRuntimeBlock(src) {
 }
 
 /**
+ * Finds the element the runtime actually rendered into, without assuming a
+ * fixed id. `#dc-root` is what the current support.js creates when it swaps
+ * out <x-dc>, but the page loads support.js from the CDN, so an older or
+ * newer build may name it differently. `.sc-host` is the component host the
+ * runtime mounts inside that container and has been stable across builds;
+ * it is the reliable signal that render actually happened. Ordered
+ * most-specific first; the last resort is whatever replaced <x-dc>.
+ *
+ * Injected verbatim into page contexts — keep it self-contained ES5.
+ */
+const FIND_ROOT = `function __findRoot() {
+  var host = document.querySelector('#dc-root .sc-host, .sc-host');
+  if (host) return host.parentElement && host.parentElement.id === 'dc-root' ? host.parentElement : host;
+  return document.getElementById('dc-root') || document.querySelector('[data-dc-tpl]');
+}`;
+
+/**
  * Removes the prerendered snapshot the instant the runtime mounts its own
  * tree, so the two never coexist visibly. No styles are applied or changed —
  * the node is detached outright.
  */
 const HYDRATION_CLEANUP = `<script>
 (function () {
+  ${FIND_ROOT}
   var snapshot = document.getElementById('__prerender');
   if (!snapshot) return;
   function live() {
-    var root = document.getElementById('dc-root');
+    var root = __findRoot();
     return root && root.firstElementChild;
   }
   function drop() {
@@ -147,13 +165,14 @@ async function prerender(browser, route) {
 
   await page.goto(`http://localhost:${PORT}/${route.source}`, { waitUntil: 'networkidle2', timeout: 60000 });
 
-  // The runtime replaces <x-dc> with #dc-root and renders into it.
+  // Wait for the real render container — resolved by selector, not a
+  // hardcoded id (see FIND_ROOT).
   try {
     await page.waitForFunction(
-      () => {
-        const root = document.getElementById('dc-root');
+      `(() => { ${FIND_ROOT}
+        const root = __findRoot();
         return !!(root && root.firstElementChild && root.textContent.trim().length > 500);
-      },
+      })()`,
       { timeout: 60000 }
     );
   } catch (err) {
@@ -162,15 +181,15 @@ async function prerender(browser, route) {
   }
   await page.evaluate(() => document.fonts && document.fonts.ready);
 
-  const { head, body } = await page.evaluate(() => {
-    const root = document.getElementById('dc-root');
+  const { head, body } = await page.evaluate(`(() => { ${FIND_ROOT}
+    const root = __findRoot();
     // Drop the runtime's own script tags from the captured head; they are
     // re-added deterministically below.
     const headClone = document.head.cloneNode(true);
     headClone.querySelectorAll('script').forEach((s) => s.remove());
     headClone.querySelectorAll('title').forEach((s) => s.remove());
     return { head: headClone.innerHTML, body: root.innerHTML };
-  });
+  })()`);
   await page.close();
 
   const supportSrc = (src.match(/<script src="([^"]*support\.js)"><\/script>/) || [])[1];
@@ -216,19 +235,22 @@ async function dumpFailure(page, route, logs) {
 
   let state = {};
   try {
-    state = await page.evaluate(() => {
-      const root = document.getElementById('dc-root');
+    state = await page.evaluate(`(() => { ${FIND_ROOT}
+      const root = __findRoot();
       return {
         supportJsLoaded: typeof window.__dcBoot === 'function',
         reactLoaded: !!window.React,
         reactDomLoaded: !!window.ReactDOM,
         bootRan: !!root,
+        rootDesc: root ? root.tagName.toLowerCase() + (root.id ? '#' + root.id : '') + (root.className ? '.' + String(root.className).trim().split(/\\s+/).join('.') : '') : '(none)',
+        hasDcRootId: !!document.getElementById('dc-root'),
+        hasScHost: !!document.querySelector('.sc-host'),
         xDcStillPresent: !!document.querySelector('x-dc'),
         renderedTextLength: root ? root.textContent.trim().length : 0,
         rootChildren: root ? root.children.length : 0,
         readyState: document.readyState,
       };
-    });
+    })()`);
   } catch (e) {
     console.error('  could not read page state:', e.message);
   }
@@ -238,10 +260,13 @@ async function dumpFailure(page, route, logs) {
     ['support.js executed  (window.__dcBoot)', state.supportJsLoaded],
     ['React loaded         (window.React)', state.reactLoaded],
     ['ReactDOM loaded      (window.ReactDOM)', state.reactDomLoaded],
-    ['__dcBoot ran         (#dc-root exists)', state.bootRan],
+    ['__dcBoot ran         (render container found)', state.bootRan],
     ['content rendered     (>500 chars)', state.renderedTextLength > 500],
   ];
   for (const [label, ok] of stages) console.error(`    ${ok ? 'ok  ' : 'FAIL'}  ${label}`);
+  console.error(
+    `  container: ${state.rootDesc || '(none)'}  [#dc-root: ${state.hasDcRootId ? 'yes' : 'no'}, .sc-host: ${state.hasScHost ? 'yes' : 'no'}]`
+  );
   console.error(
     `  rendered text: ${state.renderedTextLength || 0} chars in ${state.rootChildren || 0} child element(s), readyState=${state.readyState}`
   );
