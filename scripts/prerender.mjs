@@ -102,19 +102,29 @@ function extractRuntimeBlock(src) {
 
 /**
  * Finds the element the runtime actually rendered into, without assuming a
- * fixed id. `#dc-root` is what the current support.js creates when it swaps
- * out <x-dc>, but the page loads support.js from the CDN, so an older or
- * newer build may name it differently. `.sc-host` is the component host the
- * runtime mounts inside that container and has been stable across builds;
- * it is the reliable signal that render actually happened. Ordered
- * most-specific first; the last resort is whatever replaced <x-dc>.
+ * fixed id. The generated page also contains a static `.sc-host` inside
+ * `#__prerender`, so every candidate must explicitly exclude that snapshot.
+ * Otherwise the hydration cleanup mistakes the snapshot for the live React
+ * tree and deletes the only visible content before the runtime mounts.
  *
  * Injected verbatim into page contexts — keep it self-contained ES5.
  */
 const FIND_ROOT = `function __findRoot() {
-  var host = document.querySelector('#dc-root .sc-host, .sc-host');
-  if (host) return host.parentElement && host.parentElement.id === 'dc-root' ? host.parentElement : host;
-  return document.getElementById('dc-root') || document.querySelector('[data-dc-tpl]');
+  var snapshot = document.getElementById('__prerender');
+  function outsideSnapshot(node) {
+    return !!node && (!snapshot || !snapshot.contains(node));
+  }
+  var dcRoot = document.getElementById('dc-root');
+  if (outsideSnapshot(dcRoot)) return dcRoot;
+  var hosts = document.querySelectorAll('.sc-host');
+  for (var i = 0; i < hosts.length; i++) {
+    if (outsideSnapshot(hosts[i])) return hosts[i];
+  }
+  var annotated = document.querySelectorAll('[data-dc-tpl]');
+  for (var j = 0; j < annotated.length; j++) {
+    if (outsideSnapshot(annotated[j])) return annotated[j];
+  }
+  return null;
 }`;
 
 /**
@@ -170,7 +180,7 @@ async function prerender(browser, route) {
   // hard — so serve them straight from this checkout. Fulfilling the request
   // with the file bytes is deterministic; rewriting the request URL across
   // origins is not. Affects only what the browser fetches while rendering —
-  // the emitted HTML keeps the CDN URLs verbatim.
+  // x-import URLs inside the emitted component remain unchanged.
   await page.setRequestInterception(true);
   page.on('request', async (req) => {
     const url = req.url();
@@ -243,8 +253,13 @@ async function prerender(browser, route) {
   })()`);
   await page.close();
 
-  const supportSrc = (src.match(/<script src="([^"]*support\.js)"><\/script>/) || [])[1];
-  if (!supportSrc) throw new Error('could not find the support.js script tag in ' + route.source);
+  const sourceSupportSrc = (src.match(/<script src="([^"]*support\.js)"><\/script>/) || [])[1];
+  if (!sourceSupportSrc) throw new Error('could not find the support.js script tag in ' + route.source);
+
+  // The source points at jsDelivr @main, but a TEST deployment must run the
+  // runtime from its own checkout. This also prevents a bad or stale main
+  // branch file from blanking an otherwise valid static snapshot.
+  const supportSrc = '/support.js';
 
   const html = `<!DOCTYPE html>
 <html lang="en">
