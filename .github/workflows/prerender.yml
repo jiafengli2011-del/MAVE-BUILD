@@ -78,5 +78,9 @@ jobs:
             echo "no changes to commit"
           else
             git commit -m "chore: prerender static pages [skip ci]"
-            git push
+            # A second upload can advance TEST while this job is rendering.
+            # Rebase the generated commit onto the newest branch tip so the
+            # final push is fast-forward instead of being rejected.
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi
