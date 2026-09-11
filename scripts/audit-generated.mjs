@@ -33,6 +33,7 @@ for (const route of ROUTES) {
     enoughText: text.length >= route.minText,
     noJsGate: !text.includes('This page requires JavaScript to display'),
     noTemplateTokens: !snapshot.includes('{{'),
+    imageRuntime: !/<(?:x-import|image-slot)\b/i.test(html) || html.includes('<script src="/image-slot.js"></script>'),
   };
 
   const referencedAssets = [

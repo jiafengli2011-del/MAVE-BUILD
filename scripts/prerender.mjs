@@ -347,6 +347,7 @@ async function prerender(browser, route) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ${routeHead(route)}
 ${head.trim()}
+<script src="/image-slot.js"></script>
 <script src="${supportSrc}"></script>
 </head>
 <body>
