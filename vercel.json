@@ -1,10 +1,11 @@
 {
-  "redirects": [
-    { "source": "/Side%20Page_Grove%20Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side Page_Grove Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20One%20Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side Page_Hearth One Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true },
-    { "source": "/Side Page_Hearth Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true }
+  "rewrites": [
+    { "source": "/models/hearth-studio", "destination": "/models/hearth-studio/index.html" },
+    { "source": "/models/grove-studio", "destination": "/models/grove-studio/index.html" },
+    { "source": "/models/hearth-one-bedroom", "destination": "/models/hearth-one-bedroom/index.html" },
+    { "source": "/models/hearth-pod", "destination": "/models/hearth-pod/index.html" },
+    { "source": "/models/grove-pod", "destination": "/models/grove-pod/index.html" },
+    { "source": "/resources", "destination": "/resources/index.html" },
+    { "source": "/resources/how-much-does-a-modular-adu-cost", "destination": "/resources/how-much-does-a-modular-adu-cost/index.html" }
   ]
 }

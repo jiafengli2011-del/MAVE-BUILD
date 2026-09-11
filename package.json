@@ -1,0 +1,13 @@
+{
+  "name": "mave-build-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "extract": "node scripts/extract-bundles.mjs",
+    "prerender": "npm run extract && node scripts/prerender.mjs",
+    "audit": "node scripts/audit-generated.mjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^23.11.1"
+  }
+}
