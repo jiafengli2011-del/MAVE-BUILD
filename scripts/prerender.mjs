@@ -368,7 +368,9 @@ ${HYDRATION_CLEANUP}
   if (visibleText.length < route.minText) {
     throw new Error(`${route.out}: suspiciously little prerendered text (${visibleText.length} < ${route.minText})`);
   }
-  if (!html.includes('id="__prerender"') || !html.includes(route.title) || !html.includes(route.canonical)) {
+  const expectedTitle = `<title>${escapeHtml(route.title)}</title>`;
+  const expectedCanonical = `href="${escapeHtml(route.canonical)}"`;
+  if (!html.includes('id="__prerender"') || !html.includes(expectedTitle) || !html.includes(expectedCanonical)) {
     throw new Error(`${route.out}: generated HTML is missing required crawlable metadata or snapshot`);
   }
   return html;
