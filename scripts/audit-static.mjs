@@ -4,7 +4,10 @@ for(const route of routes){const file=route.path==='/'?'public/index.html':join(
  if(document.body.textContent.trim().length<500)fail('insufficient content');for(const selector of['h1','meta[name="description"]','link[rel="canonical"]','.mv-nav'])if(!document.querySelector(selector))fail('missing '+selector);
  if(/<x-dc|<sc-if|<sc-for|<image-slot|<x-import|{{/.test(html))fail('uncompiled template');if(/support\.js|react\.production|unpkg\.com/.test(html))fail('legacy renderer');
  for(const el of document.querySelectorAll('img,script[src],link[rel="stylesheet"]')){const u=el.getAttribute('src')||el.getAttribute('href');if(u?.startsWith('/'))try{await access(join('public',u));}catch{fail('missing asset '+u);}if(el.localName==='img'&&(!u?.startsWith('/assets/')||!el.hasAttribute('width')||!el.hasAttribute('height')))fail('invalid image '+u);}
- for(const a of document.querySelectorAll('a[href]')){const u=a.getAttribute('href');if(u.startsWith('/')&&!known.has(u.split('#')[0].replace(/\/$/,'')||'/'))fail('unknown route '+u);}
+ for(const a of document.querySelectorAll('a[href]')){const u=a.getAttribute('href');if(/\.dc\.html(?:$|[?#])/i.test(decodeURI(u)))fail('export-only page link '+u);if(u.startsWith('/')&&!known.has(u.split('#')[0].replace(/\/$/,'')||'/'))fail('unknown route '+u);}
+ for(const el of document.querySelectorAll('source[srcset],img[srcset]'))for(const item of el.getAttribute('srcset').split(',')){
+  const u=item.trim().split(/\s+/)[0];if(!u.startsWith('/assets/'))fail('unmapped image candidate '+u);else try{await access(join('public',u));}catch{fail('missing image candidate '+u);}
+ }
  for(const m of html.matchAll(/url\(["']?([^"')]+)["']?\)/g)){if(/^https?:/.test(m[1]))fail('external background');if(m[1].startsWith('/'))try{await access(join('public',m[1]));}catch{fail('missing background '+m[1]);}}
  console.log('AUDIT',route.path);
 }

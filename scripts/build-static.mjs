@@ -37,18 +37,24 @@ for(const route of routes){
    n.style.cssText+=`;display:block;object-fit:${node.getAttribute('fit')||'cover'};`;if(!n.style.width)n.style.width='100%';if(!n.style.height)n.style.height='100%';if(node.hasAttribute('radius'))n.style.borderRadius=node.getAttribute('radius')+'px';node.replaceWith(n);node=n;
   }
   for(const a of [...node.attributes]){
-   const name=a.name;
+   const name=a.name,raw=a.value;
    if(name.startsWith('hint-')){node.removeAttribute(name);continue;}
-   if(/^on[a-z]+$/i.test(name)){register(node,scopes).events[name.slice(2).toLowerCase()]=a.value.replace(/^\s*{{|}}\s*$/g,'').trim();node.removeAttribute(name);continue;}
-   if(name==='ref'){register(node,scopes,{ref:a.value.replace(/^\s*{{|}}\s*$/g,'').trim()});node.removeAttribute(name);continue;}
-   if(name==='style-hover'){register(node,scopes,{hover:a.value});node.removeAttribute(name);continue;}
-   if(a.value.includes('{{')){
-    register(node,scopes).attrs[name]=a.value;const m=a.value.match(/^\s*{{(.*?)}}\s*$/s),v=m?val(m[1],scope):interp(a.value,scope);
+   if(/^on[a-z]+$/i.test(name)){register(node,scopes).events[name.slice(2).toLowerCase()]=raw.replace(/^\s*{{|}}\s*$/g,'').trim();node.removeAttribute(name);continue;}
+   if(name==='ref'){register(node,scopes,{ref:raw.replace(/^\s*{{|}}\s*$/g,'').trim()});node.removeAttribute(name);continue;}
+   if(name==='style-hover'){register(node,scopes,{hover:raw});node.removeAttribute(name);continue;}
+   if(raw.includes('{{')){
+    register(node,scopes).attrs[name]=raw;const m=raw.match(/^\s*{{(.*?)}}\s*$/s),v=m?val(m[1],scope):interp(raw,scope);
     if(['disabled','checked'].includes(name)){if(v)node.setAttribute(name,'');else node.removeAttribute(name);}else node.setAttribute(name,String(v??''));
    }
    if(name==='style'&&/url\(/.test(node.getAttribute(name)||'')){
-    const urls={};node.setAttribute(name,node.getAttribute(name).replace(/url\(["']?([^"')]+)["']?\)/g,(_,u)=>{urls[u]=image(u).url;return `url(${urls[u]})`;}));if(a.value.includes('{{'))register(node,scopes,{urls});
+    const urls={};node.setAttribute(name,node.getAttribute(name).replace(/url\(["']?([^"')]+)["']?\)/g,(_,u)=>{urls[u]=u.startsWith('/assets/')?u:image(u).url;return `url(${urls[u]})`;}));if(raw.includes('{{'))register(node,scopes,{urls});
    }
+  }
+  if(node.localName==='source' && node.hasAttribute('srcset')){
+   node.setAttribute('srcset',node.getAttribute('srcset').split(',').map(part=>{
+    const [url,descriptor]=part.trim().split(/\s+/);if(url.startsWith('/assets/'))return part.trim();
+    const meta=image(url);return meta.url+(descriptor?.endsWith('w')?' '+meta.width+'w':descriptor?' '+descriptor:'');
+   }).join(', '));
   }
   if(node.localName==='img'&&node.getAttribute('src')){
    const src=node.getAttribute('src'),a=image(src);node.setAttribute('src',a.url);node.setAttribute('width',String(a.width));node.setAttribute('height',String(a.height));if(a.small){node.setAttribute('srcset',`${a.small} ${a.smallWidth}w, ${a.url} ${a.width}w`);node.setAttribute('sizes','100vw');}node.setAttribute('decoding','async');if(!/logo/i.test(src))node.setAttribute('loading','lazy');const id=node.getAttribute('data-mv');if(id!==null&&records[+id].attrs.src)records[+id].image=true;

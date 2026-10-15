@@ -12,6 +12,6 @@
     "audit": "node scripts/audit-static.mjs",
     "prerender": "npm run build",
     "test:browser": "node scripts/test-browser.mjs",
-    "test:dom": "node scripts/test-dom.mjs"
+    "test:dom": "node scripts/test-dom.mjs && node scripts/test-regressions.mjs"
   }
 }
