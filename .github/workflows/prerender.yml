@@ -12,17 +12,27 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test:dom
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:browser
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Build and audit all static pages
+        run: npm run build
+      - name: Check interactions and Pod price animations
+        run: npm run test:dom
+      - name: Install Chromium headless shell
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Check desktop, mobile and JavaScript-disabled pages
+        shell: bash
+        run: |
+          mkdir -p browser-checks
+          set -o pipefail
+          npm run test:browser 2>&1 | tee browser-checks/test.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
