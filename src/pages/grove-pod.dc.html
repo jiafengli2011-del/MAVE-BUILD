@@ -575,6 +575,7 @@ class Component extends DCLogic {
     if (this._priceRan) return;
     this._priceRan = true;
     const from = 52990, to = 42990, dur = 1500, t0 = performance.now();
+    this.setState({ priceVal: from, priceDone: false });
     const tick = (now) => {
       const p = Math.min(1, (now - t0) / dur);
       const e = 1 - Math.pow(1 - p, 3);

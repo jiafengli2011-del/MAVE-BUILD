@@ -5,7 +5,7 @@
  class DCLogic{constructor(props){this.props=props;}setState(update){Object.assign(this.state,typeof update==='function'?update(this.state):update);this.refresh?.();}}
  window.DCLogic=DCLogic;
  window.MAVE={attach(Component,props,records){
-  const instance=new Component(props);if(props.staticPrice){Object.assign(instance.state,{priceVal:props.staticPrice,priceDone:true});instance._priceRan=true;}
+  const instance=new Component(props);if(props.staticPrice){Object.assign(instance.state,{priceVal:props.staticPrice,priceDone:true});instance._priceRan=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
   let vals={...props,...instance.state,...instance.renderVals()};const nodes=[...document.querySelectorAll('[data-mv]')].map(el=>({el,r:records[+el.dataset.mv]}));
   const scopeFor=r=>{const s={...vals};for(const f of r.scopes)s[f.name]=(value(f.expr,s)||[])[f.index];return s;};
   let lastFocus=null,dialogOpen=false;
