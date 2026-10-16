@@ -1,0 +1,25 @@
+import{createServer}from'node:http';import{readFile,stat,mkdir}from'node:fs/promises';import{resolve,extname}from'node:path';import assert from'node:assert/strict';import{chromium}from'playwright';
+const root=resolve('public'),routes=JSON.parse(await readFile('src/routes.json','utf8')),types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.woff2':'font/woff2'};
+const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw new Error();if((await stat(file)).isDirectory())file+='/index.html';res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream'});res.end(await readFile(file));}catch{res.writeHead(404);res.end('Not found');}});await new Promise(r=>server.listen(4322,'127.0.0.1',r));await mkdir('browser-checks',{recursive:true});let browser;
+async function fitsViewport(locator, page, label) {
+ const box=await locator.boundingBox(); const viewport=page.viewportSize();
+ assert.ok(box && box.x >= -1 && box.y >= -1 && box.x+box.width <= viewport.width+1 && box.y+box.height <= viewport.height+1, label+' must fit the viewport: '+JSON.stringify(box));
+}
+async function checkMobileMenu(page) {
+ const menu=page.locator('.mv-mobile-menu');await fitsViewport(menu,page,'Mobile navigation');
+ const models=menu.locator(':scope > button');await fitsViewport(models,page,'Models toggle');
+ await fitsViewport(models.locator('span').last(),page,'Models arrow');
+ const quote=menu.getByText('Get a quote',{exact:true});await quote.scrollIntoViewIfNeeded();await fitsViewport(quote,page,'Quote button');
+ const close=menu.getByRole('button',{name:'Close',exact:true});await close.scrollIntoViewIfNeeded();await fitsViewport(close,page,'Menu close button');
+ await models.click();await models.click();
+}
+async function checkMobileModal(page) {
+ const modal=page.locator('.mv-modal');await fitsViewport(modal,page,'Contact dialog');
+ assert.ok(await modal.evaluate(el=>el.scrollWidth<=el.clientWidth+1),'Contact dialog must not overflow horizontally');
+}
+try{browser=await chromium.launch();for(const viewport of[{width:1440,height:1000},{width:375,height:667},{width:390,height:844}]){const context=await browser.newContext({viewport,reducedMotion:'reduce'});await context.route('https://formspree.io/**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'}));for(const route of routes){const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:4322'+route.path,{waitUntil:'networkidle'});await p.waitForFunction(()=>window.__maveReady);await p.locator('img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));await p.waitForFunction(()=>[...document.images].every(i=>i.complete));assert.deepEqual(errors,[]);assert.ok(await p.locator('h1:visible').count() > 0, 'Expected a visible page heading: '+route.path);assert.deepEqual(await p.locator('img').evaluateAll(imgs=>imgs.filter(i=>!i.naturalWidth).map(i=>i.src)),[]);if(viewport.width<768 && ['hearth-pod','grove-pod','grove-studio'].includes(route.id)){
+ const img=p.locator('#pod-sub-hero-x2,#pod-sub-hero-x1,#loft-sub-hero');
+ const metrics=await img.evaluate(el=>({width:el.clientWidth,height:el.clientHeight,naturalWidth:el.naturalWidth,naturalHeight:el.naturalHeight,fit:getComputedStyle(el).objectFit,wrapHeight:el.parentElement.clientHeight}));
+ assert.equal(metrics.fit,'contain');assert.ok(Math.abs(metrics.height-metrics.width*metrics.naturalHeight/metrics.naturalWidth)<4,'Hero must preserve its full aspect ratio');assert.ok(metrics.wrapHeight>=metrics.height,'Hero container must not clip its image');
+ }
+ await p.screenshot({path:`browser-checks/${route.id}-${viewport.width}.png`,fullPage:true});if(viewport.width<768){await p.locator('.mv-hamburger').click();await checkMobileMenu(p);await p.getByText('Contact Us',{exact:true}).filter({visible:true}).first().click();}else await p.locator('.mv-nav-cta').click();if(viewport.width<768){await checkMobileModal(p);await p.getByText('Get a free feasibility study',{exact:true}).click();await checkMobileModal(p);await p.locator('.mv-modal').getByRole('button',{name:'Back',exact:false}).click();}await p.getByText('Send us a message',{exact:true}).click();if(viewport.width<768)await checkMobileModal(p);assert.ok(await p.locator('.mv-modal').isVisible());await p.keyboard.press('Escape');assert.equal(await p.locator('.mv-modal').isVisible(),false);console.log('BROWSER PASS',route.path,viewport.width);await p.close();}await context.close();}const context=await browser.newContext({javaScriptEnabled:false});for(const route of routes){const p=await context.newPage();await p.goto('http://127.0.0.1:4322'+route.path);assert.ok(await p.locator('h1:visible').count() > 0, 'Expected a visible page heading: '+route.path);await p.close();}await context.close();}finally{await browser?.close();server.close();}
