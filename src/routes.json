@@ -1,0 +1,62 @@
+[
+  {
+    "id": "home",
+    "source": "src/pages/home.dc.html",
+    "path": "/",
+    "title": "Architect-Designed Small Homes | MAVE"
+  },
+  {
+    "id": "hearth-studio",
+    "source": "src/pages/hearth-studio.dc.html",
+    "path": "/models/hearth-studio",
+    "title": "Hearth Studio | MAVE"
+  },
+  {
+    "id": "grove-studio",
+    "source": "src/pages/grove-studio.dc.html",
+    "path": "/models/grove-studio",
+    "title": "Grove Studio | MAVE"
+  },
+  {
+    "id": "hearth-one-bedroom",
+    "source": "src/pages/hearth-one-bedroom.dc.html",
+    "path": "/models/hearth-one-bedroom",
+    "title": "Hearth One Bedroom | MAVE"
+  },
+  {
+    "id": "hearth-pod",
+    "source": "src/pages/hearth-pod.dc.html",
+    "path": "/models/hearth-pod",
+    "title": "Hearth Pod | MAVE"
+  },
+  {
+    "id": "grove-pod",
+    "source": "src/pages/grove-pod.dc.html",
+    "path": "/models/grove-pod",
+    "title": "Grove Pod | MAVE"
+  },
+  {
+    "id": "about",
+    "source": "src/pages/about.dc.html",
+    "path": "/about",
+    "title": "About MAVE | Good Design, Made Accessible"
+  },
+  {
+    "id": "resources",
+    "source": "src/pages/resources.dc.html",
+    "path": "/resources",
+    "title": "Building Guides & Resources | MAVE"
+  },
+  {
+    "id": "modular-adu-cost",
+    "source": "src/pages/modular-adu-cost.dc.html",
+    "path": "/resources/how-much-does-a-modular-adu-cost",
+    "title": "How Much Does a Modular ADU Cost? | MAVE"
+  },
+  {
+    "id": "modular-vs-traditional",
+    "source": "src/pages/modular-vs-traditional.dc.html",
+    "path": "/resources/modular-vs-traditional-construction",
+    "title": "Modular vs. Traditional Construction | MAVE"
+  }
+]

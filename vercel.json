@@ -1,10 +1,55 @@
 {
-  "redirects": [
-    { "source": "/Side%20Page_Grove%20Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side Page_Grove Loft.dc.html", "destination": "/models/grove-studio", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20One%20Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side Page_Hearth One Bedroom.dc.html", "destination": "/models/hearth-one-bedroom", "permanent": true },
-    { "source": "/Side%20Page_Hearth%20Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true },
-    { "source": "/Side Page_Hearth Studio.dc.html", "destination": "/models/hearth-studio", "permanent": true }
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "rewrites": [
+    {
+      "source": "/models/hearth-studio",
+      "destination": "/models/hearth-studio/index.html"
+    },
+    {
+      "source": "/models/grove-studio",
+      "destination": "/models/grove-studio/index.html"
+    },
+    {
+      "source": "/models/hearth-one-bedroom",
+      "destination": "/models/hearth-one-bedroom/index.html"
+    },
+    {
+      "source": "/models/hearth-pod",
+      "destination": "/models/hearth-pod/index.html"
+    },
+    {
+      "source": "/models/grove-pod",
+      "destination": "/models/grove-pod/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/resources",
+      "destination": "/resources/index.html"
+    },
+    {
+      "source": "/resources/how-much-does-a-modular-adu-cost",
+      "destination": "/resources/how-much-does-a-modular-adu-cost/index.html"
+    },
+    {
+      "source": "/resources/modular-vs-traditional-construction",
+      "destination": "/resources/modular-vs-traditional-construction/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
   ]
 }
