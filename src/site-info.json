@@ -1,0 +1,42 @@
+{
+  "origin": "https://www.mavebuild.com",
+  "name": "MAVE",
+  "homeDescription": "Architect-designed small homes, cabins and backyard spaces. Explore MAVE’s models, building guides and flexible delivery options starting at $33,990.",
+  "products": {
+    "hearth-pod": {
+      "name": "Hearth Pod",
+      "minimumPrice": 33990,
+      "areaSqFt": 167,
+      "delivery": "Complete factory-built Pod product",
+      "format": "pod"
+    },
+    "grove-pod": {
+      "name": "Grove Pod",
+      "minimumPrice": 42990,
+      "areaSqFt": 182,
+      "delivery": "Complete factory-built Pod product",
+      "format": "pod"
+    },
+    "hearth-studio": {
+      "name": "Hearth Studio",
+      "minimumPrice": 65000,
+      "areaSqFt": 375,
+      "delivery": "Material package and construction drawings",
+      "format": "kit"
+    },
+    "grove-studio": {
+      "name": "Grove Studio",
+      "minimumPrice": 69000,
+      "areaSqFt": 320,
+      "delivery": "Material package and construction drawings",
+      "format": "kit"
+    },
+    "hearth-one-bedroom": {
+      "name": "Hearth One Bedroom",
+      "minimumPrice": 84000,
+      "areaSqFt": 480,
+      "delivery": "Material package and construction drawings",
+      "format": "kit"
+    }
+  }
+}
