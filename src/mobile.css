@@ -1,0 +1,58 @@
+/* Phone-only corrections; desktop rules remain unchanged. */
+@media (max-width: 767px) {
+  .mv-mobile-menu {
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+  .mv-mobile-menu > * { min-width: 0 !important; max-width: 100% !important; flex-shrink: 0; }
+  .mv-mobile-menu > button { width: 100% !important; box-sizing: border-box !important; gap: 12px; }
+  .mv-mobile-menu > button > span:last-child { display: inline-block !important; flex: 0 0 18px; font-size: 18px !important; text-align: center; }
+  .mv-mobile-menu > a:last-child { display: block; width: 100%; box-sizing: border-box; white-space: normal; }
+  .mv-contact-overlay {
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh;
+    height: 100dvh;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .mv-modal {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: min(600px, calc(100vw - 24px)) !important;
+    max-height: calc(100vh - 24px) !important;
+    max-height: calc(100dvh - 24px) !important;
+    padding: 44px 20px 24px !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+  }
+  .mv-modal h2 { font-size: 26px !important; }
+  .mv-modal button, .mv-modal input, .mv-modal textarea, .mv-modal select,
+  .mv-modal button > span, .mv-form-2col { min-width: 0 !important; max-width: 100%; }
+  .mv-modal input, .mv-modal textarea, .mv-modal select { box-sizing: border-box; font-size: 16px !important; }
+  .mv-modal button { white-space: normal !important; }
+  .mv-form-2col { grid-template-columns: minmax(0, 1fr) !important; }
+  .mv-hero-wrap:has(> #pod-sub-hero-x2),
+  .mv-hero-wrap:has(> #pod-sub-hero-x1),
+  .mv-hero-wrap:has(> #loft-sub-hero) { height: auto !important; aspect-ratio: auto !important; }
+  #pod-sub-hero-x2, #pod-sub-hero-x1, #loft-sub-hero {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+}

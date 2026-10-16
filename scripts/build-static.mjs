@@ -5,6 +5,7 @@ import {info,makeSchema,makeLlms} from './site-metadata.mjs';
 const routes=JSON.parse(await readFile('src/routes.json','utf8'));
 const assets=JSON.parse(await readFile('src/assets.json','utf8'));
 const origin=info.origin;
+const mobileStyles=await readFile('src/mobile.css','utf8');
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
 const val=(expr,scope)=>{const k=expr.trim();return k==='true'?true:k==='false'?false:k.split('.').reduce((v,k)=>v?.[k],scope);};
 const interp=(s,v)=>s.replace(/{{(.*?)}}/gs,(_,x)=>val(x,v)??'');
@@ -40,7 +41,7 @@ for(const route of routes){
   for(const a of [...node.attributes]){
    const name=a.name,raw=a.value;
    if(name.startsWith('hint-')){node.removeAttribute(name);continue;}
-   if(/^on[a-z]+$/i.test(name)){register(node,scopes).events[name.slice(2).toLowerCase()]=raw.replace(/^\s*{{|}}\s*$/g,'').trim();node.removeAttribute(name);continue;}
+   if(/^on[a-z]+$/i.test(name)){if(raw.includes('closeContactBackdrop'))node.classList.add('mv-contact-overlay');register(node,scopes).events[name.slice(2).toLowerCase()]=raw.replace(/^\s*{{|}}\s*$/g,'').trim();node.removeAttribute(name);continue;}
    if(name==='ref'){register(node,scopes,{ref:raw.replace(/^\s*{{|}}\s*$/g,'').trim()});node.removeAttribute(name);continue;}
    if(name==='style-hover'){register(node,scopes,{hover:raw});node.removeAttribute(name);continue;}
    if(raw.includes('{{')){
@@ -72,7 +73,7 @@ for(const route of routes){
  }
  const canonical=origin+route.path,schema=makeSchema(route,description,first?.getAttribute('src'));
  const client=`MAVE.attach(${logic.trim().replace(/;\s*$/,'')},${JSON.stringify(props)},${JSON.stringify(records)});\n`;await writeFile(`public/site/${route.id}.js`,client);
- const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(route.title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${esc(canonical)}"><meta property="og:title" content="${esc(route.title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:type" content="${route.path.startsWith('/resources/')?'article':'website'}">${first?`<meta property="og:image" content="${origin}${first.getAttribute('src')}">`:''}<meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">${JSON.stringify(schema).replaceAll('<','\\u003c')}</script>${styles}<link rel="stylesheet" href="/assets/fonts.css"><link rel="describedby" type="text/plain" href="/llms.txt"><style>mv-if{display:contents}mv-if[hidden]{display:none!important}html{scroll-behavior:smooth;scroll-padding-top:90px}img{max-width:100%}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}</style><script defer src="/site/runtime.js"></script><script defer src="/site/${route.id}.js"></script></head><body>${component.innerHTML}</body></html>`;
+ const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(route.title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${esc(canonical)}"><meta property="og:title" content="${esc(route.title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:type" content="${route.path.startsWith('/resources/')?'article':'website'}">${first?`<meta property="og:image" content="${origin}${first.getAttribute('src')}">`:''}<meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">${JSON.stringify(schema).replaceAll('<','\\u003c')}</script>${styles}<style>${mobileStyles}</style><link rel="stylesheet" href="/assets/fonts.css"><link rel="describedby" type="text/plain" href="/llms.txt"><style>mv-if{display:contents}mv-if[hidden]{display:none!important}html{scroll-behavior:smooth;scroll-padding-top:90px}img{max-width:100%}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}</style><script defer src="/site/runtime.js"></script><script defer src="/site/${route.id}.js"></script></head><body>${component.innerHTML}</body></html>`;
  if(html.includes('{{'))throw new Error('Unresolved template '+route.id);const file=route.path==='/'?'public/index.html':join('public',route.path.slice(1),'index.html');await mkdir(dirname(file),{recursive:true});await writeFile(file,html);report.push({path:route.path,htmlBytes:Buffer.byteLength(html),logicBytes:Buffer.byteLength(client)});console.log('BUILT',route.path);
 }
 await writeFile('public/llms.txt',makeLlms(routes));
