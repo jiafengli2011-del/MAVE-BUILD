@@ -55,4 +55,28 @@
     object-fit: contain !important;
     object-position: center !important;
   }
+
+  /* Homepage: keep the Why Modular photo in its own row. */
+  #why .mv-why-media {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+  }
+  #why-render {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+  #why .mv-why-content { min-width: 0; }
+  /* Empty exported galleries have no content, but their phone aspect ratios
+     reserve several screens of space. Keep real galleries if images are added. */
+  #why + section .mv-gallery-2col:not(:has(img, picture, video)),
+  #why + section .mv-gallery-3col:not(:has(img, picture, video)) {
+    display: none !important;
+  }
 }
