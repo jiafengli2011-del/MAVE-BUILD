@@ -39,7 +39,7 @@
       .mv-uses-grid{grid-template-columns:1fr!important;gap:24px!important}
       .mv-usp-grid{grid-template-columns:1fr!important}
       .mv-keywords-block{padding-bottom:20px!important}
-      .mv-floorplan-img-wrap{aspect-ratio:4/3!important}
+      .mv-floorplan-img-wrap{aspect-ratio:4/3!important;height:auto!important}
       .mv-package-grid{grid-template-columns:1fr!important;gap:28px!important}
       .mv-performance-grid{grid-template-columns:1fr!important;gap:16px!important}
       .mv-cta-box{padding:36px 24px!important}
@@ -75,7 +75,7 @@
         <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:{{ menuSub }};min-width:76px;flex:0 0 76px">Hearth</span>
         <a href="/models/hearth-pod" style="display:flex;flex-direction:column;gap:6px;flex:0 0 172px;padding:8px 0;text-decoration:none" style-hover="opacity:.62">
           <span style="font-size:14px;font-weight:500;letter-spacing:.01em;color:{{ menuText }};white-space:nowrap">Hearth · Pod</span>
-          <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:{{ menuSub }}">167 sq ft</span>
+          <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:{{ menuSub }}">120 sq ft</span>
         </a>
         <a href="/models/hearth-studio" style="display:flex;flex-direction:column;gap:6px;flex:0 0 172px;padding:8px 0;text-decoration:none" style-hover="opacity:.62">
           <span style="font-size:14px;font-weight:500;letter-spacing:.01em;color:{{ menuText }};white-space:nowrap">Hearth · Studio</span>
@@ -113,7 +113,7 @@
 <sc-if value="{{ mobileAduOpen }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;border-bottom:1px solid rgba(243,239,230,.14);background:rgba(243,239,230,.04)">
 <div style="padding:14px 6px 6px 22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(243,239,230,.45)">Hearth</div>
-<a href="/models/hearth-pod" onClick="{{ toggleMobileMenu }}" style="display:flex;justify-content:space-between;align-items:center;padding:15px 6px 15px 22px;font-size:16px;font-weight:500;color:#f3efe6;text-decoration:none"><span>Hearth · Pod</span><span style="font-family:'Space Mono',monospace;font-size:12px;color:rgba(243,239,230,.55)">167 sq ft</span></a>
+<a href="/models/hearth-pod" onClick="{{ toggleMobileMenu }}" style="display:flex;justify-content:space-between;align-items:center;padding:15px 6px 15px 22px;font-size:16px;font-weight:500;color:#f3efe6;text-decoration:none"><span>Hearth · Pod</span><span style="font-family:'Space Mono',monospace;font-size:12px;color:rgba(243,239,230,.55)">120 sq ft</span></a>
 <a href="/models/hearth-studio" onClick="{{ toggleMobileMenu }}" style="display:flex;justify-content:space-between;align-items:center;padding:15px 6px 15px 22px;font-size:16px;font-weight:500;color:#f3efe6;text-decoration:none"><span>Hearth · Studio</span><span style="font-family:'Space Mono',monospace;font-size:12px;color:rgba(243,239,230,.55)">375 sq ft</span></a>
 <a href="/models/hearth-one-bedroom" onClick="{{ toggleMobileMenu }}" style="display:flex;justify-content:space-between;align-items:center;padding:15px 6px 15px 22px;font-size:16px;font-weight:500;color:#f3efe6;text-decoration:none"><span>Hearth · One Bedroom</span><span style="font-family:'Space Mono',monospace;font-size:12px;color:rgba(243,239,230,.55)">480 sq ft</span></a>
 <div style="padding:14px 6px 6px 22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(243,239,230,.45)">Grove</div>
@@ -150,16 +150,16 @@
       <div style="margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #E2DDD0">
         <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9486;margin-bottom:10px">Starting at</div>
         <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;margin-bottom:12px" ref="{{ priceRef }}">
-          <sc-if value="{{ promoPricing }}" hint-placeholder-val="{{ true }}"><span style="font-family:Times New Roman;font-size:32px;font-weight:400;letter-spacing:-.01em;color:#A8A296;text-decoration:line-through;text-decoration-thickness:1.5px;line-height:1">$52,990</span></sc-if>
+          <sc-if value="{{ promoPricing }}" hint-placeholder-val="{{ true }}"><span style="font-family:Times New Roman;font-size:32px;font-weight:400;letter-spacing:-.01em;color:#A8A296;text-decoration:line-through;text-decoration-thickness:1.5px;line-height:1">$58,500</span></sc-if>
           <span style="{{ priceStyle }}" class="mv-price">{{ priceText }}</span>
-          <sc-if value="{{ promoPricing }}" hint-placeholder-val="{{ true }}"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#F3EFE6;background:#B16A45;border-radius:100px;padding:5px 11px;line-height:1;align-self:center">Save $10,000</span></sc-if>
+          <sc-if value="{{ promoPricing }}" hint-placeholder-val="{{ true }}"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#F3EFE6;background:#B16A45;border-radius:100px;padding:5px 11px;line-height:1;align-self:center">Save $8,000</span></sc-if>
         </div>
-        <div style="font-size:13.5px;line-height:1.55;color:#7C7868;max-width:440px">Includes interior and exterior finishes, structure, windows and doors, and delivery. Taxes, installation&nbsp;and site work are not included. Published starting price for a complete factory-built Pod. Final pricing is quoted individually for your project.</div>
+        <div style="font-size:13.5px;line-height:1.55;color:#7C7868;max-width:440px">Complete shell package</div>
       </div>
       <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— Overview</div>
-      <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.12;letter-spacing:-.01em;font-weight:500;margin-bottom:22px;max-width:480px">A cabin small enough for the garden, complete enough to stay in.</h2>
-      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px;margin-bottom:18px">The Grove Pod is our smallest building with a bathroom of its own — a guest cabin that can host overnight without anyone crossing the garden at 2am.</p>
-      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px">At 182 square feet — with a full bathroom built in — it still sits under most permit thresholds. It arrives as a complete factory-built unit, and its clean silhouette and warm plywood interior read as contemporary without shouting about it.</p>
+      <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.12;letter-spacing:-.01em;font-weight:500;margin-bottom:22px;max-width:480px">A cabin small enough for the garden, planned with its own bath.</h2>
+      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px;margin-bottom:18px">The Grove Pod is our smallest building with a bathroom layout of its own — a guest cabin that can host overnight without anyone crossing the garden at 2am.</p>
+      <p style="font-size:17px;line-height:1.6;color:#54594D;max-width:520px">At 182 square feet, it pairs one clear room with a compact bathroom. It comes as a panelized kit for assembly on site, and its clean silhouette and warm plywood interior read as contemporary without shouting about it. Bath fixtures, MEP equipment, finishes and furniture shown in the renderings are not included in the base price.</p>
     </div>
     <div style="overflow:hidden;height:640px" class="mv-split-media">
       <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="pod-sub-ext-x1" src="https://raw.githubusercontent.com/jiafengli2011-del/MAVE-BUILD/refs/heads/main/images/Exterior%201.2jpg.jpg" placeholder="Grove Pod — exterior render" radius="0" style="width:100%;height:100%" hint-size="100%,640px"></x-import>
@@ -183,12 +183,12 @@
           </div>
           <div style="display:flex;align-items:center;gap:14px;background:#FBF9F4;border:1px solid #E2DDD0;border-radius:12px;padding:16px 18px">
             <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:100px;background:#EEE8DC;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#B16A45">02</span>
-            <span style="font-size:15.5px;line-height:1.3;font-weight:600;color:#20251F">Up and running in days, not months</span>
+            <span style="font-size:15.5px;line-height:1.3;font-weight:600;color:#20251F">Panelized kit, assembled on site</span>
           </div>
         </div>
         <div style="font-size:12px;line-height:1.5;color:#9A9486;margin-top:12px;max-width:520px">*Permit requirements vary by jurisdiction. Please verify local zoning and building codes before installation.</div>
         </div>
-          <a href="/models/hearth-pod" style="display:inline-block;margin-top:28px;font-size:15px;font-weight:600;color:#B16A45;text-decoration:none;border-bottom:1.5px solid #B16A45;padding-bottom:2px">Hearth · Pod — same shell, 167 sq ft, no bath →</a>
+          <a href="/models/hearth-pod" style="display:inline-block;margin-top:28px;font-size:15px;font-weight:600;color:#B16A45;text-decoration:none;border-bottom:1.5px solid #B16A45;padding-bottom:2px">Hearth · Pod — same shell, 120 sq ft, no bath →</a>
         </div>
 
         <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:30px">
@@ -216,11 +216,11 @@
             </div>
             <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #E2DDD0">
               <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17"></path><path d="M8.5 7 12 3.5 15.5 7"></path><path d="M8.5 17 12 20.5 15.5 17"></path><path d="M5 3.5h14M5 20.5h14"></path></svg></span>
-              <span style="flex:1;color:#54594D">Install</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">Days, not weeks</span>
+              <span style="flex:1;color:#54594D">Install</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">On-site assembly</span>
             </div>
             <div style="display:flex;align-items:center;gap:13px;padding:13px 0">
               <span style="flex-shrink:0;display:inline-flex;color:#2F4A38"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.5H7A1.5 1.5 0 005.5 5v14A1.5 1.5 0 007 20.5h10a1.5 1.5 0 001.5-1.5V8.5z"></path><path d="M13.5 3.5V8.5h5"></path><path d="M8.6 14l2.2 2.2 4.4-4.4"></path></svg></span>
-              <span style="flex:1;color:#54594D">Permit</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">Usually not required</span>
+              <span style="flex:1;color:#54594D">Permit</span><span style="font-weight:600;font-family:'Space Mono',monospace;font-size:14px;color:#20251F">Not required*</span>
             </div>
           </div>
           <a href="#" onClick="{{ openContact }}" style="display:block;text-align:center;margin-top:24px;font-size:15px;font-weight:600;color:#F3EFE6;background:#2F4A38;padding:14px;border-radius:8px;text-decoration:none">Get a quote</a>
@@ -235,15 +235,15 @@
     <div style="max-width:1280px;margin:0 auto;padding:80px 44px" class="mv-container mv-vpad">
       <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— How it lives</div>
       <h2 style="font-family:'Spectral',serif;font-size:38px;line-height:1.08;letter-spacing:-.02em;font-weight:500;margin-bottom:14px">A cabin at the end of the garden.</h2>
-      <p style="font-size:16.5px;line-height:1.6;color:#54594D;max-width:560px;margin-bottom:44px">With a bathroom of its own, the Grove Pod is built to host — a sleeping platform, storage below, and everything a guest needs for the night.</p>
+      <p style="font-size:16.5px;line-height:1.6;color:#54594D;max-width:560px;margin-bottom:44px">With a bathroom of its own, the Grove Pod is planned to host — a furniture-style loft bed, storage below and a compact bath.</p>
       <div style="display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center" class="mv-uses-grid">
         <div style="background:#E7E2D6;border-radius:12px;overflow:hidden;aspect-ratio:3/2">
           <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="pod-use-guest-cdn" src="https://raw.githubusercontent.com/jiafengli2011-del/MAVE-BUILD/refs/heads/main/images/Interior_1.1.png" placeholder="Grove Pod — guest cabin" radius="12" style="width:100%;height:100%" hint-size="100%,300px"></x-import>
         </div>
         <div>
           <h3 style="font-size:22px;font-weight:600;color:#20251F;margin-bottom:12px">Guest cabin</h3>
-          <p style="font-size:16px;line-height:1.6;color:#54594D;margin-bottom:16px">A bed set into the window with drawers below and a loft above. The built-in bathroom makes overnight stays work without a trip to the house.</p>
-          <p style="font-size:15px;line-height:1.6;color:#7C7868">Want a backyard office or studio instead? The <a href="/models/hearth-pod" style="color:#B16A45;font-weight:600;text-decoration:none">Hearth · Pod</a> is the same shell at 167 sq ft without the bath.</p>
+          <p style="font-size:16px;line-height:1.6;color:#54594D;margin-bottom:16px">A bed set into the window with drawers below and a loft above. The bathroom layout makes overnight stays work without a trip to the house. Fixtures, furniture and finishes shown are optional or sourced separately.</p>
+          <p style="font-size:15px;line-height:1.6;color:#7C7868">Want a backyard office or studio instead? The <a href="/models/hearth-pod" style="color:#B16A45;font-weight:600;text-decoration:none">Hearth · Pod</a> is the same shell at 120 sq ft without the bath.</p>
         </div>
     </div>
   </div></section>
@@ -253,8 +253,10 @@
     <div style="max-width:1280px;margin:0 auto;padding:72px 44px" class="mv-container mv-vpad">
       <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— Floor plan</div>
       <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin-bottom:36px">The layout</h2>
-      <div class="mv-floorplan-img-wrap">
-        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="pod-sub-plan-gh" src="https://raw.githubusercontent.com/jiafengli2011-del/MAVE-BUILD/refs/heads/main/images/Plan%20Publish.jpg" fit="contain" placeholder="Grove Pod — dimensioned floor plan (182 sq ft)" radius="0" style="display:block;width:100%;height:713px;object-fit:contain;border:0;border-radius:0;background:transparent;mix-blend-mode:darken" hint-size="100%,520px"></x-import>
+      <div class="mv-floorplan-img-wrap" style="height:713px;overflow:hidden">
+        <div style="width:100%;height:100%;transform:scale(1.12);transform-origin:50% 50%;background:#EEE8DC">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="pod-sub-plan-gh" src="https://raw.githubusercontent.com/jiafengli2011-del/MAVE-BUILD/refs/heads/main/images/Plan%20Publish.jpg" fit="contain" placeholder="Grove Pod — dimensioned floor plan (182 sq ft)" radius="0" style="width:100%;height:100%;mix-blend-mode:multiply" hint-size="100%,520px"></x-import>
+        </div>
       </div>
     </div>
   </section>
@@ -264,7 +266,7 @@
     <div style="max-width:1280px;margin:0 auto;padding:80px 44px" class="mv-container mv-vpad">
       <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#B16A45;margin-bottom:18px">— What's included</div>
       <h2 style="font-family:'Spectral',serif;font-size:38px;line-height:1.08;letter-spacing:-.02em;font-weight:500;margin-bottom:14px">In the package</h2>
-      <p style="font-size:16.5px;line-height:1.6;color:#54594D;max-width:560px;margin-bottom:52px">Every Grove Pod ships as a complete, build-ready kit — here's exactly what's in the box, and what your local contractor sources and handles on site.</p>
+      <p style="font-size:16.5px;line-height:1.6;color:#54594D;max-width:560px;margin-bottom:52px">Every Grove Pod comes as a panelized kit for assembly on site — here's what's in the base package, what can be added, and what your local contractor sources and handles on site.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:36px" class="mv-package-grid">
 
         <div>
@@ -275,54 +277,55 @@
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
             <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Build support</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Full-build construction consulting · general contractor training</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Shipping</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Product delivery — NY, NJ, OR, CA, WA</p>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Construction consulting and contractor support as agreed</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
             <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Structure</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">SIPs structural panel kit — exterior enclosure · steel + insulation panels — interior framing</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Windows and weatherproofing</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Windows &amp; exterior doors · weatherproofing and functional membranes</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Roofing and siding</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Standing seam metal roof system · exterior siding system — various colors</p>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">SIPs single-storey structural panel kit</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:10px">Interior fit-out</h3>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <span style="font-size:15px;line-height:1.5;color:#54594D">Wall finish panels — gypsum board / marine plywood</span>
-              <span style="font-size:15px;line-height:1.5;color:#54594D">Flooring — vinyl / engineered</span>
-            </div>
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Windows and weatherproofing</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Windows &amp; exterior doors · weatherproofing membranes</p>
           </div>
         </div>
 
         <div>
           <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#8A6A2F;background:#F1E9D6;border:1px solid #E3D3A8;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 8v4.5l3 2"></path></svg>Optional</span>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Bathroom upgrades</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Upgraded bath fixtures and casework beyond the standard package</p>
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Roofing and siding</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Standing seam metal roof system · exterior siding system — various colors</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Permitting</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">At 182 sq ft, many cities don't require a permit at all. Where yours does, we provide a permit-ready drawing set — and can submit on your behalf.</p>
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Interior finishes</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Interior wall finish panels — gypsum board / marine plywood</p>
+          </div>
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Flooring</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Interior flooring — vinyl / engineered</p>
+          </div>
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Casework</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Storage and bathroom casework — various finishes</p>
+          </div>
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Loft bed</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Furniture-style loft bed with ladder and guardrail</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Casework</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Desk wall, storage or platform casework — built to the use you name</p>
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Permitting</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Permitting submission on your behalf</p>
           </div>
         </div>
 
         <div>
           <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#34547A;background:#E1E8F0;border:1px solid #C6D3E3;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.9 5 .4-3.8 3.3 1.2 4.9-4.1-2.6-4.1 2.6 1.2-4.9-3.8-3.3 5-.4z"></path></svg>Offered</span>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
             <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Construction network</h3>
             <p style="font-size:15px;line-height:1.6;color:#54594D">We maintain a network of trusted local contractors, architects, and engineers who are familiar with our building system.</p>
+          </div>
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Shipping</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Quoted separately based on actual shipping costs and delivery location.</p>
           </div>
         </div>
 
@@ -330,19 +333,19 @@
           <span style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:#9A5A3C;background:#F1E5DC;border:1px solid #E3CBBB;border-radius:100px;padding:6px 14px;margin-bottom:6px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>Not included</span>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
             <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Construction and site</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Foundation and site work · on-site construction · utilities hookups</p>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Foundation and site work · on-site installation</p>
+          </div>
+          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Bathroom fixtures</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Toilet, shower, sink and related fittings</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
             <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">MEP systems</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Electrical system · plumbing system · HVAC system</p>
-          </div>
-          <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Interior installation</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">Interior finish/casework installation · lighting fixtures</p>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Plumbing · electrical · HVAC — equipment and installation</p>
           </div>
           <div style="padding:22px 0 18px;border-top:1px solid #DCD6C8;border-bottom:1px solid #DCD6C8">
-            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Furniture</h3>
-            <p style="font-size:15px;line-height:1.6;color:#54594D">We provide a sourcing list to help you order desks, beds and appliances locally</p>
+            <h3 style="font-size:16.5px;font-weight:600;color:#20251F;margin-bottom:8px">Taxes</h3>
+            <p style="font-size:15px;line-height:1.6;color:#54594D">Applicable taxes are not included in the listed price.</p>
           </div>
         </div>
 
@@ -357,19 +360,19 @@
       <h2 style="font-family:'Spectral',serif;font-size:34px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin-bottom:40px">Small enough to move fast.</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" class="mv-performance-grid">
         <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">&lt; 200</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Square feet — under most permit thresholds</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">Many jurisdictions exempt detached accessory structures at this size. We verify yours first.</p>
+          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">~50%</div>
+          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Faster shell assembly vs. stick frame</h3>
+          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">SIPs industry standard — assembly in days, not weeks.</p>
         </div>
         <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">3 day</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">To stand the structural shell</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">For this footprint with an experienced crew.</p>
+          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">1 room</div>
+          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Many uses, with a bath</h3>
+          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">Guest cabin, home office, studio or hobby room — one clear room with a compact bathroom.</p>
         </div>
         <div style="background:#FBF9F4;border:1px solid #E2DDD0;border-radius:16px;padding:32px">
-          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">~40–60%</div>
-          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Better thermal performance</h3>
-          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">vs. standard 2×6 stud wall — continuous insulation, no thermal bridging.</p>
+          <div style="font-family:'Spectral',serif;font-size:46px;font-weight:500;letter-spacing:-.02em;color:#2F4A38;line-height:1;margin-bottom:14px">SIPs</div>
+          <h3 style="font-size:17px;font-weight:600;color:#20251F;margin-bottom:8px">Panelized structural kit</h3>
+          <p style="font-size:13.5px;line-height:1.55;color:#7C7868;font-style:italic">Assembled on site by your contractor; timing depends on site conditions.</p>
         </div>
       </div>
     </div>
@@ -574,7 +577,7 @@ class Component extends DCLogic {
   _startPriceCount() {
     if (this._priceRan) return;
     this._priceRan = true;
-    const from = 52990, to = 42990, dur = 1500, t0 = performance.now();
+    const from = 58500, to = 50500, dur = 1500, t0 = performance.now();
     this.setState({ priceVal: from, priceDone: false });
     const tick = (now) => {
       const p = Math.min(1, (now - t0) / dur);
@@ -654,7 +657,7 @@ class Component extends DCLogic {
     };
     return {
       promoPricing: this.props.promoPricing !== false,
-      priceText: "$" + (this.state.priceVal == null ? 52990 : this.state.priceVal).toLocaleString('en-US'),
+      priceText: "$" + (this.state.priceVal == null ? 58500 : this.state.priceVal).toLocaleString('en-US'),
       priceStyle: "font-family:Times New Roman;font-size:50px;font-weight:500;letter-spacing:-.02em;line-height:.95;font-variant-numeric:tabular-nums;transition:color .5s ease;color:" + (this.state.priceDone ? "#20251F" : "#5E6355"),
       priceRef: (el) => {
         if (!el || this._priceObs) return;

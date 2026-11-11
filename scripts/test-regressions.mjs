@@ -6,6 +6,23 @@ for(const slug of['modular-vs-traditional-construction','how-much-does-a-modular
  await readFile('public/resources/'+slug+'/index.html');
 }
 resources.document.querySelector('.mv-nav-cta').click();resources.document.dispatchEvent(new resources.KeyboardEvent('keydown',{key:'Escape'}));assert.ok([...resources.document.querySelectorAll('a[href]')].every(a=>!a.getAttribute('href').includes('.dc.html')));
-const home=await load('home','/'),about=await load('about','/about');const hero=home.document.getElementById('hero-render'),photo=about.document.querySelector('[data-parallax] img');assert.equal(photo.getAttribute('src'),hero.getAttribute('src'),'About must use exact homepage hero image');assert.equal(photo.getAttribute('srcset'),hero.getAttribute('srcset'));assert.equal(about.document.querySelector('[data-parallax] picture'),null);
-for(const [id,plan]of[['hearth-studio','studio-sub-plan'],['grove-pod','pod-sub-plan-gh']]){const w=await load(id,'/models/'+id),img=w.document.getElementById(plan);assert.equal(img.style.mixBlendMode,'darken');assert.ok(img.style.background.includes('transparent'));assert.equal(img.style.objectFit,'contain');assert.equal(img.style.borderRadius,'0px');await w.happyDOM.close();}
-for(const w of[resources,home,about])await w.happyDOM.close();console.log('PASS: article URLs and covers after interaction, About image identity, floor-plan styling.');
+const home=await load('home','/'),about=await load('about','/about');
+const assets=JSON.parse(await readFile('src/assets.json','utf8'));
+const picture=about.document.querySelector('[data-parallax] picture');
+assert.ok(picture,'About retains the new responsive image');
+assert.equal(picture.querySelector('img').getAttribute('src'),assets['assets/about-studio-exterior-2400.jpg'].url);
+for(const id of ['hearth-studio','grove-studio','hearth-one-bedroom','hearth-pod','grove-pod']){
+ const w=await load(id,'/models/'+id),plan=w.document.querySelector('.mv-floorplan-img-wrap');
+ assert.ok(plan,'Model has a floor plan');assert.equal(plan.querySelector('img').style.objectFit,'contain');
+ assert.ok(w.document.body.textContent.includes('Quoted separately based on actual shipping costs and delivery location.'));
+ assert.ok(w.document.body.textContent.includes('Applicable taxes are not included in the listed price.'));
+ await w.happyDOM.close();
+}
+const info=JSON.parse(await readFile('src/site-info.json','utf8'));
+for(const [id,product] of Object.entries(info.products)){
+ const a=home.document.querySelector(`a[href="/models/${id}"][style*="border-bottom"]`);
+ assert.ok(a.parentElement.textContent.includes('$'+product.minimumPrice.toLocaleString('en-US')),id+': homepage matches model price');
+}
+assert.ok(home.document.getElementById('plans'),'Homepage model anchor remains functional');
+assert.ok(!home.document.body.textContent.includes('167 sq ft'),'Homepage uses the updated Hearth Pod area');
+for(const w of[resources,home,about])await w.happyDOM.close();console.log('PASS: article URLs and covers after interaction, responsive About image, contained floor plans, shipping/tax scope and homepage model prices.');
