@@ -410,11 +410,9 @@
     "smallWidth": 960
   },
   "assets/grove-studio-floor-plan.png": {
-    "url": "/assets/806c89a3e7c5f90b3609.webp",
+    "url": "/assets/grove-studio-plan-gray.svg",
     "width": 1920,
-    "height": 1484,
-    "small": "/assets/d440b4f28943ee3fb196.webp",
-    "smallWidth": 960
+    "height": 1484
   },
   "uploads/Loft Studio_Exterior View 1.jpg": {
     "url": "/assets/bd05ebddaaefc2ba6ddf.webp",
