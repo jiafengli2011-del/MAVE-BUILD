@@ -1,5 +1,5 @@
 import{createServer}from'node:http';import{readFile,stat,mkdir}from'node:fs/promises';import{resolve,extname}from'node:path';import assert from'node:assert/strict';import{chromium}from'playwright';
-const root=resolve('public'),routes=JSON.parse(await readFile('src/routes.json','utf8')),types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.woff2':'font/woff2'};
+const root=resolve('public'),routes=JSON.parse(await readFile('src/routes.json','utf8')),types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw new Error();if((await stat(file)).isDirectory())file+='/index.html';res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream'});res.end(await readFile(file));}catch{res.writeHead(404);res.end('Not found');}});await new Promise(r=>server.listen(4322,'127.0.0.1',r));await mkdir('browser-checks',{recursive:true});let browser;
 async function fitsViewport(locator, page, label) {
  const box=await locator.boundingBox(); const viewport=page.viewportSize();

@@ -13,7 +13,7 @@ for(const route of routes){const file=route.path==='/'?'public/index.html':join(
    if(spec?.minPrice!==expected.minimumPrice||spec?.priceCurrency!=='USD')fail('incorrect minimum price or currency');
    if(offer?.price!==undefined)fail('starting price presented as fixed price');
    if(!product?.description.includes(expected.delivery)||!product?.description.includes('quoted individually'))fail('missing delivery or quotation scope');
-   if(expected.format==='pod'&&/arrives as a kit/i.test(document.body.textContent))fail('Pod incorrectly described as a kit');
+   if(expected.format==='panelized'&&/arrives as a complete factory-built unit/i.test(document.body.textContent))fail('Panelized shell incorrectly described as a completed factory-built unit');
   }
  }catch(e){fail('invalid structured data: '+e.message);}
  if(/<x-dc|<sc-if|<sc-for|<image-slot|<x-import|{{/.test(html))fail('uncompiled template');if(/support\.js|react\.production|unpkg\.com/.test(html))fail('legacy renderer');
